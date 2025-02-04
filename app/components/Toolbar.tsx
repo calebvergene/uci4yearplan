@@ -4,7 +4,7 @@ import { AlignJustify, Download, CloudUpload, Files } from "lucide-react";
 const toolbar = () => {
   return (
     <div>
-        <div className='flex justify-between py-3 px-5'>
+        <div className='flex justify-between py-3 px-5 border-b'>
             <div className='text-l'>
                 
             </div>
