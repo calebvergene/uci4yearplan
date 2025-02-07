@@ -6,7 +6,7 @@ const Sidebar = () => {
 
   return (
       <Tabs defaultValue="Major" className="w-full">
-        <TabsList className='w-full !bg-dark-secondary mx-2 mb-1'>
+        <TabsList className='w-full !bg-dark-secondary mx-2'>
           <TabsTrigger value="Major" className='px-10'>Major</TabsTrigger>
           <TabsTrigger value="Minor" className='px-10'>Minor</TabsTrigger>
           <TabsTrigger value="GEs" className='px-10'>GEs</TabsTrigger>

@@ -39,7 +39,7 @@ export default function MajorSelect({ majors }: Props) {
   
     return (
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild className="mx-3">
+        <PopoverTrigger asChild className="mx-2">
           <Button
             variant="outline"
             role="combobox"

@@ -1,14 +1,6 @@
 import React from 'react'
 import MajorSelect from './MajorSelect'
 
-interface Major {
-    id: string,
-    name: string,
-    type: string,
-    division: string,
-    specializations: string[],
-}
-
 const MajorSection = async () => {
 
 // Fetch majors
