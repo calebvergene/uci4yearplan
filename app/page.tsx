@@ -11,7 +11,7 @@ import {
 
 export default function Home() {
   return (
-    <div className=' h-screen'>
+    <div className=' h-screen overflow-hidden'>
       <Toolbar />
       <ResizablePanelGroup direction="horizontal" className='min-w-[450px]'>
 
@@ -21,7 +21,7 @@ export default function Home() {
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel><Sidebar /></ResizablePanel>
+        <ResizablePanel minSize={27}><Sidebar /></ResizablePanel>
       </ResizablePanelGroup>
     </div>
   );

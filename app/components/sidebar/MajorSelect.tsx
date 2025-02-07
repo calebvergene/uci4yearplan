@@ -19,76 +19,80 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
-
-export default function MajorSelect() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="mx-4">
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-full",
-                      value === framework.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  )
+interface Major {
+    id: string,
+    name: string,
+    type: string,
+    division: string,
+    specializations: string[],
 }
+
+interface Props {
+    majors: Major[]
+}
+
+
+
+export default function MajorSelect({ majors }: Props) {
+    const [open, setOpen] = React.useState(false)
+    const [id, setId] = React.useState("")
+  
+    return (
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild className="mx-3">
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {id
+              ? majors.find((major) => major.name === id)?.name
+              : "Select major..."}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-full p-0">
+          <Command>
+            <CommandInput placeholder="Search major..." />
+            <CommandList>
+              <CommandEmpty>No major found.</CommandEmpty>
+              <CommandGroup>
+                  {majors
+                      .filter(major => major.division === 'Undergraduate')
+                      .sort((a, b) => {
+                          const aName = a.name.includes('in') ? a.name.split(/in\s+/)[1] : a.name;
+                          const bName = b.name.includes('in') ? b.name.split(/in\s+/)[1] : b.name;
+                          return aName.localeCompare(bName);
+                      })
+                      .map((major) => {
+                          const afterIn = major.name.includes('in') ? 
+                              major.name.split(/in\s+/)[1] : 
+                              major.name;
+                          
+                          return (
+                              <CommandItem
+                                  key={major.id}
+                                  value={major.name}
+                                  onSelect={(currentValue) => {
+                                      setId(currentValue === id ? "" : currentValue)
+                                      setOpen(false)
+                                  }}
+                              >
+                                  <Check
+                                      className={cn(
+                                          "mr-2 h-4 w-full",
+                                          id === major.name ? "opacity-100" : "opacity-0"
+                                      )}
+                                  />
+                                  {afterIn}
+                              </CommandItem>
+                          );
+                      })}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    )
+  }
