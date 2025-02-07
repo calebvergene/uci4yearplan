@@ -11,7 +11,11 @@ export default {
   	extend: {
   		colors: {
   			background: 'var(--background)',
-  			foreground: 'var(--foreground)'
+  			foreground: 'var(--foreground)',
+			'dark-primary': '#121212',    
+			'dark-secondary': '#1E1E1E',  
+			'dark-accent': '#292929',
+			'dark-highlight': '#3C4042',   
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
