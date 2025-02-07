@@ -4,7 +4,7 @@ import YearCard from './YearCard'
 const Calendar = () => {
   return (
     <div>
-        <YearCard/>
+      <YearCard />
     </div>
   )
 }
