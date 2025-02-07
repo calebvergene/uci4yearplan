@@ -2,6 +2,8 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
+import { Major } from "../../types"
+
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -19,28 +21,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface Major {
-    id: string,
-    name: string,
-    type: string,
-    division: string,
-    specializations: string[],
-}
 
 interface Props {
     majors: Major[]
+    handleMajorChange?: (value: string) => void
 }
 
-export default function MajorSelect({ majors }: Props) {
+export default function MajorSelect({ majors, handleMajorChange }: Props) {
     const [open, setOpen] = React.useState(false)
     const [id, setId] = React.useState("")
     
     const handleSelect = (currentValue: string) => {
-        const selectedMajor = majors.find(major => major.name === currentValue);
-        if (selectedMajor) {
-            setId(selectedMajor.id === id ? "" : selectedMajor.id);
-        }
-        setOpen(false);
+      const selectedMajor = majors.find(major => major.name === currentValue);
+      if (selectedMajor) {
+        setId(selectedMajor.id === id ? "" : selectedMajor.id);
+        handleMajorChange?.(selectedMajor.id);
+      }
+      setOpen(false);
     };
 
     const selectedMajor = majors.find(major => major.id === id);
