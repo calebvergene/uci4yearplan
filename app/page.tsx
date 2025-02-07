@@ -21,7 +21,7 @@ export default function Home() {
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel minSize={27}><Sidebar /></ResizablePanel>
+        <ResizablePanel defaultSize={40} minSize={27}><Sidebar /></ResizablePanel>
       </ResizablePanelGroup>
     </div>
   );

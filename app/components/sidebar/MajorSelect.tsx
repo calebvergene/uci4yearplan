@@ -31,11 +31,19 @@ interface Props {
     majors: Major[]
 }
 
-
-
 export default function MajorSelect({ majors }: Props) {
     const [open, setOpen] = React.useState(false)
     const [id, setId] = React.useState("")
+    
+    const handleSelect = (currentValue: string) => {
+        const selectedMajor = majors.find(major => major.name === currentValue);
+        if (selectedMajor) {
+            setId(selectedMajor.id === id ? "" : selectedMajor.id);
+        }
+        setOpen(false);
+    };
+
+    const selectedMajor = majors.find(major => major.id === id);
   
     return (
       <Popover open={open} onOpenChange={setOpen}>
@@ -46,9 +54,7 @@ export default function MajorSelect({ majors }: Props) {
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {id
-              ? majors.find((major) => major.name === id)?.name
-              : "Select major..."}
+            {selectedMajor ? selectedMajor.name : "Select major..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -74,15 +80,12 @@ export default function MajorSelect({ majors }: Props) {
                               <CommandItem
                                   key={major.id}
                                   value={major.name}
-                                  onSelect={(currentValue) => {
-                                      setId(currentValue === id ? "" : currentValue)
-                                      setOpen(false)
-                                  }}
+                                  onSelect={handleSelect}
                               >
                                   <Check
                                       className={cn(
                                           "mr-2 h-4 w-full",
-                                          id === major.name ? "opacity-100" : "opacity-0"
+                                          id === major.id ? "opacity-100" : "opacity-0"
                                       )}
                                   />
                                   {afterIn}
@@ -95,4 +98,4 @@ export default function MajorSelect({ majors }: Props) {
         </PopoverContent>
       </Popover>
     )
-  }
+}
