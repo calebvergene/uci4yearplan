@@ -2,7 +2,7 @@
 
 import React from 'react'
 import MajorSelect from './MajorSelect'
-import { Major, ApiResponse, Requirement, MajorData } from "../../types"
+import { Major, ApiResponse } from "../../types"
 import { useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
