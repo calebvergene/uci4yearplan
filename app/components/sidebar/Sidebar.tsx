@@ -1,5 +1,5 @@
 // app/components/sidebar/Sidebar.tsx
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
 import { fetchMajorClasses } from '@/app/actions/majorActions'
@@ -29,11 +29,13 @@ const Sidebar = async ({
         <TabsTrigger value="GEs" className='px-10'>GEs</TabsTrigger>
       </TabsList>
       <TabsContent value="Major">
-        <MajorSection 
-          majors={majors.data} 
-          initialMajorData={initialMajorData}
-          fetchMajorClasses={fetchMajorClasses}
-        />
+        <Suspense fallback={<div>Loading major section...</div>}>
+          <MajorSection 
+            majors={majors.data} 
+            initialMajorData={null}
+            fetchMajorClasses={fetchMajorClasses}
+          />
+        </Suspense>
       </TabsContent>
       <TabsContent value="Minor">Change your password here.</TabsContent>
       <TabsContent value="GEs">GEs</TabsContent>
