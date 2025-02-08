@@ -4,22 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
 import { fetchMajorClasses } from '@/app/actions/majorActions'
 
-interface SearchParams {
-  majorId?: string;
-}
-
-const Sidebar = async ({
-  searchParams = {}
-}: {
-  searchParams?: SearchParams
-} = {}) => {
+const Sidebar = async () => {
   const res = await fetch('https://anteaterapi.com/v2/rest/programs/majors');
   const majors = await res.json();
-
-  let initialMajorData;
-  if (searchParams?.majorId) {
-    initialMajorData = await fetchMajorClasses(searchParams.majorId);
-  }
 
   return (
     <Tabs defaultValue="Major" className="w-full">
@@ -32,7 +19,6 @@ const Sidebar = async ({
         <Suspense fallback={<div>Loading major section...</div>}>
           <MajorSection 
             majors={majors.data} 
-            initialMajorData={null}
             fetchMajorClasses={fetchMajorClasses}
           />
         </Suspense>
