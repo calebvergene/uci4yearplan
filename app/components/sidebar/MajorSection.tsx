@@ -2,17 +2,17 @@
 
 import React from 'react'
 import MajorSelect from './MajorSelect'
-import { Major } from "../../types"
+import { Major, ApiResponse, Requirement, MajorData } from "../../types"
 import { useRouter, useSearchParams } from 'next/navigation'
 
 interface Props {
   majors: Major[];
-  initialMajorData?: any;
-  fetchMajorClasses: (id: string) => Promise<any>;
+  initialMajorData?: ApiResponse | null;
+  fetchMajorClasses: (id: string) => Promise<ApiResponse>;
 }
 
 const MajorSection = ({ majors, initialMajorData, fetchMajorClasses }: Props) => {
-  const [majorClasses, setMajorClasses] = React.useState<any>(initialMajorData);
+  const [majorClasses, setMajorClasses] = React.useState<ApiResponse | null>(initialMajorData || null);
   const router = useRouter();
   const searchParams = useSearchParams();
 
