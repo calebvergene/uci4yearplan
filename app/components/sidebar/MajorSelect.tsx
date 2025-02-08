@@ -51,7 +51,10 @@ export default function MajorSelect({ majors, handleMajorChange }: Props) {
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {selectedMajor ? selectedMajor.name : "Select major..."}
+            
+            {selectedMajor ? selectedMajor.name.includes('in') ? selectedMajor.name.split(/in\s+/)[1] : 
+            selectedMajor.name : "Select major..."}
+
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
