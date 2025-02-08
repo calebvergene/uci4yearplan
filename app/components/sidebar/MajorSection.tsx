@@ -4,6 +4,7 @@ import React from 'react'
 import MajorSelect from './MajorSelect'
 import { Major, ApiResponse } from "../../types"
 import { useSearchParams } from 'next/navigation'
+import ClassSelection from './ClassSelection'
 
 interface Props {
   majors: Major[];
@@ -45,7 +46,7 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses }: Props) =>
       />
       {majorClasses && (
         <div className="mt-4 p-4">
-          <pre>{JSON.stringify(majorClasses, null, 2)}</pre>
+          <ClassSelection Requirements={majorClasses.data.requirements} />
         </div>
       )}
     </div>
