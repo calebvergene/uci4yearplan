@@ -9,7 +9,7 @@ interface Props {
 const ClassSelection = ({Requirements}: Props) => {
   return (
     <div className="h-[77vh] overflow-y-auto">
-      <h1 className='font-semibold text-4xl mb-2'>Major Requirements</h1>
+      <h1 className='font-semibold text-4xl mb-2 text-decoration-line: underline'>Major Requirements</h1>
 
       {/* Parse through each first layer Requirement*/}
       {Requirements.map((requirement: Requirement, index) => {
@@ -22,11 +22,11 @@ const ClassSelection = ({Requirements}: Props) => {
         if (requirement.requirementType === 'Group') {
           const groupRequirement = requirement as unknown as GroupRequirement;
           return (
-            <div key={index} className=''>
-              {!isMatch && <h3 className="font-semibold text-xl pt-8">{groupRequirement.label}</h3>}
+            <div key={index} className='py-6'>
+              {!isMatch && <h3 className="font-semibold text-2xl mb-1">{groupRequirement.label}</h3>}
               {groupRequirement.requirements.map((requirement, index) => (
-                <div key={index}>
-                  <ClassSelectionChunk {...requirement} />
+                <div key={index} className='pl-4 border-l'>
+                  <ClassSelectionChunk requirement={requirement} groupRequirement={true}/>
               </div>
               ))}
             </div>
@@ -36,7 +36,7 @@ const ClassSelection = ({Requirements}: Props) => {
         {/* Normal Requirement*/}
         return (
           <div key={index} className=''>
-            <ClassSelectionChunk {...requirement} />
+            <ClassSelectionChunk requirement={requirement} groupRequirement={false} />
           </div>
         );
       })}
