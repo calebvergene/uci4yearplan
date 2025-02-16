@@ -4,7 +4,7 @@ interface Props {
     course: string;
 }
 
-const Course = ({ course: courseName }: Props) => {
+const CourseButton = ({ course: courseName }: Props) => {
     return (
         <div>
             <button className='bg-dark-accent px-3 py-1 rounded-lg min-w-40'>
@@ -14,4 +14,4 @@ const Course = ({ course: courseName }: Props) => {
     )
 }
 
-export default Course
+export default CourseButton

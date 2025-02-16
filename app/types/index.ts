@@ -5,12 +5,18 @@ export interface Major {
     division: string,
     specializations: string[],
 }
-
 export interface Requirement {
-    label: string;
-    requirementType: string;
-    courseCount: number;
-    courses: string[];
+  label: string;
+  requirementType: string;
+  courseCount: number;
+  courses: string[];
+}
+
+export interface GroupRequirement {
+  label: string;
+  requirementType: string;
+  requirementCount: number;
+  requirements: Requirement[];
 }
 
 export interface MajorData {
