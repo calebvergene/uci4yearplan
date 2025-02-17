@@ -8,7 +8,7 @@ interface Props {
 
 const ClassSelection = ({Requirements}: Props) => {
   return (
-    <div className="h-[77vh] overflow-y-auto">
+    <div className="h-[79vh] overflow-y-auto ml-2">
       <h1 className='font-semibold text-4xl mb-2 text-decoration-line: underline'>Major Requirements</h1>
 
       {/* Parse through each first layer Requirement*/}
@@ -24,11 +24,13 @@ const ClassSelection = ({Requirements}: Props) => {
           return (
             <div key={index} className='py-6'>
               {!isMatch && <h3 className="font-semibold text-2xl mb-1">{groupRequirement.label}</h3>}
+              <div className='bg-dark-secondary rounded-lg'>
               {groupRequirement.requirements.map((requirement, index) => (
-                <div key={index} className='pl-4 border-l'>
+                <div key={index} className='pl-4 py-1 pb-3 '>
                   <ClassSelectionChunk requirement={requirement} groupRequirement={true}/>
               </div>
               ))}
+              </div>
             </div>
           );
         }

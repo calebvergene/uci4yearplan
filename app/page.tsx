@@ -1,5 +1,5 @@
 import Toolbar from './components/Toolbar';
-import Calendar from './components/calendar/Calendar';
+import Calendar from './components/calendar/CoursePlanner';
 import Sidebar from './components/sidebar/Sidebar';
 import {
   ResizableHandle,

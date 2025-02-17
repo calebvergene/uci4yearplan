@@ -29,3 +29,18 @@ export interface ApiResponse {
     ok: boolean;
     data: MajorData;
 }
+
+export interface Course {
+    id: string;
+    code: string;
+  }
+  
+export interface Quarter {
+    id: string;
+    courses: Course[];
+  }
+  
+export interface Year {
+    id: string;
+    quarters: Quarter[];
+  }

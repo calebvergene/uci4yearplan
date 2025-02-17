@@ -13,7 +13,7 @@ export default {
   			background: 'var(--background)',
   			foreground: 'var(--foreground)',
 			'dark-primary': '#121212',    
-			'dark-secondary': '#1E1E1E',  
+			'dark-secondary': '#1A1A1A',  
 			'dark-accent': '#292929',
 			'dark-highlight': '#3C4042',   
   		},
