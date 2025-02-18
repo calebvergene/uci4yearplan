@@ -1,8 +1,7 @@
-// app/components/sidebar/Sidebar.tsx
 import React, { Suspense } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
-import { fetchMajorClasses } from '@/app/actions/majorActions'
+import { fetchMajorClasses } from '@/app/actions/actions'
 
 const Sidebar = async () => {
   const res = await fetch('https://anteaterapi.com/v2/rest/programs/majors');
