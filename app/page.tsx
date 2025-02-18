@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/resizable"
 
 
-
 export default function Home() {
   return (
     <div className=' h-screen overflow-hidden'>
@@ -24,5 +23,6 @@ export default function Home() {
         <ResizablePanel defaultSize={40} minSize={27}><Sidebar /></ResizablePanel>
       </ResizablePanelGroup>
     </div>
+
   );
 }

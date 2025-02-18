@@ -15,7 +15,7 @@ export default {
 			'dark-primary': '#121212',    
 			'dark-secondary': '#1A1A1A',  
 			'dark-accent': '#292929',
-			'dark-highlight': '#3C4042',   
+			'dark-highlight': 'rgb(60, 60, 60)',   
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

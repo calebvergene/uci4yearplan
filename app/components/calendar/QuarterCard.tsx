@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Quarter, Course } from "../../types/index";
-import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
 
 interface Props {
     quarter: Quarter;
