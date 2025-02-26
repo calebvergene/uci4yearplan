@@ -29,18 +29,6 @@ const CourseHistoryGrid: React.FC<CourseHistoryGridProps> = ({ terms }) => {
     return Boolean(termLookup[year.toString()] && termLookup[year.toString()].has(season));
   };
   
-  const calculateFrequency = (season: string): string => {
-    let count = 0;
-    relevantYears.forEach(year => {
-      if (wasOffered(year, season)) {
-        count++;
-      }
-    });
-    
-    if (count === 0) return 'Not offered';
-    if (count === 4) return 'Offered every year';
-    return `Offered ${count}/4 years`;
-  };
 
   return (
     <div className="w-full rounded-lg">

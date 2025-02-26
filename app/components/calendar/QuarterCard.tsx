@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Quarter } from "../../types/index";
-import CourseButton from '../sidebar/CourseButton';
 
 interface Props {
     quarter: Quarter;

@@ -35,6 +35,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse }: Props) =>
 
   const onAddClick = (yearId: string, quarterId: string, Course: string) => {
     addCourse(yearId, quarterId, Course);
+    console.log(removeCourse);
   }
 
   useEffect(() => {

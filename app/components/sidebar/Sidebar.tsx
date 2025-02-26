@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
 import { fetchMajorClasses } from '@/app/actions/actions'
@@ -9,6 +9,7 @@ interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
+
 
 const Sidebar = ({ addCourse, removeCourse }: Props) => {
   const [majors, setMajors] = useState([]);
