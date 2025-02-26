@@ -1,11 +1,27 @@
-import React, { Suspense } from 'react'
+'use client';
+
+import React, { useEffect, useState, Suspense } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
 import { fetchMajorClasses } from '@/app/actions/actions'
 
-const Sidebar = async () => {
-  const res = await fetch('https://anteaterapi.com/v2/rest/programs/majors');
-  const majors = await res.json();
+interface Props {
+  addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+  removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
+}
+
+const Sidebar = ({ addCourse, removeCourse }: Props) => {
+  const [majors, setMajors] = useState([]);
+  
+  useEffect(() => {
+    const fetchMajors = async () => {
+      const res = await fetch('https://anteaterapi.com/v2/rest/programs/majors');
+      const data = await res.json();
+      setMajors(data.data);
+    };
+    
+    fetchMajors();
+  }, []);
 
   return (
     <Tabs defaultValue="Major" className="w-full">
@@ -15,12 +31,16 @@ const Sidebar = async () => {
         <TabsTrigger value="GEs" className='px-10'>GEs</TabsTrigger>
       </TabsList>
       <TabsContent value="Major">
-        <Suspense fallback={<div>Loading major section...</div>}>
+        {majors.length > 0 ? (
           <MajorSection 
-            majors={majors.data} 
+            majors={majors} 
             fetchMajorClasses={fetchMajorClasses}
+            addCourse={addCourse} 
+            removeCourse={removeCourse}
           />
-        </Suspense>
+        ) : (
+          <div>Loading major section...</div>
+        )}
       </TabsContent>
       <TabsContent value="Minor">Change your password here.</TabsContent>
       <TabsContent value="GEs">GEs</TabsContent>

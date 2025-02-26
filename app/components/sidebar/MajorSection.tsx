@@ -10,9 +10,11 @@ interface Props {
   majors: Major[];
   initialMajorData?: ApiResponse | null;
   fetchMajorClasses: (id: string) => Promise<ApiResponse>;
+  addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+  removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const MajorSection = ({ majors, initialMajorData, fetchMajorClasses }: Props) => {
+const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, removeCourse }: Props) => {
   const [majorClasses, setMajorClasses] = React.useState<ApiResponse | null>(initialMajorData || null);
   const searchParams = useSearchParams();
 
@@ -46,7 +48,7 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses }: Props) =>
       />
       {majorClasses && (
         <div className="mt-4 p-4">
-          <ClassSelection Requirements={majorClasses.data.requirements}  />
+          <ClassSelection Requirements={majorClasses.data.requirements} addCourse={addCourse} removeCourse={removeCourse} />
         </div>
       )}
     </div>

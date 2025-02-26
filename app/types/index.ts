@@ -30,14 +30,10 @@ export interface ApiResponse {
     data: MajorData;
 }
 
-export interface Course {
-    id: string;
-    name: string;
-  }
   
 export interface Quarter {
     id: string;
-    courses: Course[];
+    courses: string[];
   }
   
 export interface Year {

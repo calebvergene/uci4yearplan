@@ -19,19 +19,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Divide } from 'lucide-react';
 import CourseHistoryGrid from './CourseHistoryGrid';
   
 interface Props {
   course: string;
+  addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+  removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const CourseButton = ({ course: courseName }: Props) => {
+const CourseButton = ({ course: courseName, addCourse, removeCourse }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [courseData, setCourseData] = useState<CourseData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
+  const onAddClick = (yearId: string, quarterId: string, Course: string) => {
+    addCourse(yearId, quarterId, Course);
+  }
+
   useEffect(() => {
     const loadCourseData = async () => {
       if (!dialogOpen) return;
@@ -69,13 +74,13 @@ const CourseButton = ({ course: courseName }: Props) => {
                 <DropdownMenuSubTrigger>Add to Planner</DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
-                    {[1, 2, 3, 4].map((year) => (
+                    {["1", "2", "3", "4"].map((year) => (
                       <DropdownMenuSub key={`year-${year}`}>
                         <DropdownMenuSubTrigger>Year {year}</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                           <DropdownMenuSubContent>
                             {['Fall', 'Winter', 'Spring', 'Summer'].map((season) => (
-                              <DropdownMenuItem key={`year-${year}-${season.toLowerCase()}`}>
+                              <DropdownMenuItem key={`year-${year}-${season.toLowerCase()}`} onClick={() => onAddClick(year, season, courseName)}>
                                 {season}
                               </DropdownMenuItem>
                             ))}

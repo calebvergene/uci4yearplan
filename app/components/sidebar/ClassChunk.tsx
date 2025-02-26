@@ -5,9 +5,11 @@ import CourseButton from './CourseButton';
 interface Props {
     requirement: Requirement;
     groupRequirement?: boolean;
+    addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+    removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const ClassSelectionChunk = ( {requirement, groupRequirement}: Props) => {
+const ClassSelectionChunk = ( {requirement, groupRequirement, addCourse, removeCourse}: Props) => {
   const normalizedLabel = requirement.label.toUpperCase().replace(/\s+/g, '');
   const isMatch = requirement.courses && requirement.courses.some(course => 
     normalizedLabel === course
@@ -23,7 +25,7 @@ const ClassSelectionChunk = ( {requirement, groupRequirement}: Props) => {
         }
       <div className='flex flex-row gap-x-2 flex-wrap'>
         {requirement.courses && requirement.courses.map((course, index) => (
-          <div key={index} className="py-1"><CourseButton course={course}/></div>
+          <div key={index} className="py-1"><CourseButton course={course} addCourse={addCourse} removeCourse={removeCourse}/></div>
         ))}
       </div>
       {requirement.courses && requirement.courses.length > 1 && !isMatch && !groupRequirement &&

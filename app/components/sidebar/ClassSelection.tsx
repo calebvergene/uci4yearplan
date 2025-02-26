@@ -4,9 +4,11 @@ import ClassSelectionChunk from './ClassChunk';
 
 interface Props {
     Requirements: Requirement[];
+    addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+    removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const ClassSelection = ({Requirements}: Props) => {
+const ClassSelection = ({Requirements, addCourse, removeCourse}: Props) => {
   return (
     <div className="h-[79vh] overflow-y-auto ml-2">
       <h1 className='font-semibold text-4xl mb-2 text-decoration-line: underline'>Major Requirements</h1>
@@ -27,7 +29,7 @@ const ClassSelection = ({Requirements}: Props) => {
               <div className='bg-dark-secondary rounded-lg'>
               {groupRequirement.requirements.map((requirement, index) => (
                 <div key={index} className='pl-4 py-1 pb-3 '>
-                  <ClassSelectionChunk requirement={requirement} groupRequirement={true}/>
+                  <ClassSelectionChunk requirement={requirement} groupRequirement={true} addCourse={addCourse} removeCourse={removeCourse}/>
               </div>
               ))}
               </div>
@@ -38,7 +40,7 @@ const ClassSelection = ({Requirements}: Props) => {
         {/* Normal Requirement*/}
         return (
           <div key={index} className=''>
-            <ClassSelectionChunk requirement={requirement} groupRequirement={false} />
+            <ClassSelectionChunk requirement={requirement} groupRequirement={false} addCourse={addCourse} removeCourse={removeCourse}/>
           </div>
         );
       })}

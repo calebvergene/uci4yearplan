@@ -1,14 +1,13 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Quarter, Course } from "../../types/index";
+import { Quarter } from "../../types/index";
+import CourseButton from '../sidebar/CourseButton';
 
 interface Props {
     quarter: Quarter;
-    addCourse: (yearId: string, quarterId: string, newCourse: Course) => void;
-    removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const QuarterCard = ({ quarter, addCourse, removeCourse }: Props) => {
+const QuarterCard = ({ quarter }: Props) => {
 
   return (
     <div className='w-full'>
@@ -17,7 +16,9 @@ const QuarterCard = ({ quarter, addCourse, removeCourse }: Props) => {
               <CardTitle>{quarter.id}</CardTitle>
             </CardHeader>
             <CardContent className='flex justify-center'>
-              Test
+              {quarter.courses.map((courseName: string) => (
+                <div key={courseName} className="py-1">{courseName}</div>
+              ))}
             </CardContent>
           </Card>
     </div>
