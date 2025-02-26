@@ -94,7 +94,7 @@ export default function Home() {
       <ResizablePanelGroup direction="horizontal" className='min-w-[450px]'>
 
         <ResizablePanel defaultSize={60}>
-          <CoursePlanner years={years}/>
+          <CoursePlanner years={years} addCourse={addCourse} removeCourse={removeCourse}/>
         </ResizablePanel>
 
         <ResizableHandle withHandle />
