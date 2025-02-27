@@ -1,27 +1,42 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Quarter } from "../../types/index";
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Quarter, Year } from "../../types/index";
 import CourseButton from '../sidebar/CourseButton';
 
 interface Props {
+  year: Year;
   quarter: Quarter;
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const QuarterCard = ({ quarter, addCourse, removeCourse }: Props) => {
+const QuarterCard = ({ year, quarter, addCourse, removeCourse }: Props) => {
 
   return (
     <div className='w-full'>
-        <Card className="px-1 !bg-dark-accent !border-none min-w-50">
-            <CardHeader>
-              <CardTitle>{quarter.id}</CardTitle>
-            </CardHeader>
-            <CardContent className='flex-col justify-center'>
-              {quarter.courses.map((courseName: string) => (
-                <div key={courseName} className="py-1"><CourseButton course={courseName} addCourse={addCourse} removeCourse={removeCourse}/></div>
-              ))}
+        <Card className="px-1 !bg-dark-accent !border-none min-w-50 rounded-md">
+            <CardTitle className='font-medium py-2 mb-5 pl-4 mx-1 text-sm border-b border-dark-highlight flex row justify-between'>
+              <div>{quarter.id}</div>
+              <div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div>
+            </CardTitle>
+            <div className='justify-center items-center'>
+            <CardContent>
+              <div className='flex flex-col items-center'>
+                {quarter.courses.map((courseName: string) => (
+                  <div key={courseName} className="py-1 w-full flex justify-center">
+                    <CourseButton 
+                      course={courseName} 
+                      addCourse={addCourse} 
+                      removeCourse={removeCourse} 
+                      inCalendar={true}
+                      year={year.id}
+                      season={quarter.id}
+                    />
+                  </div>
+                ))}
+              </div>
             </CardContent>
+            </div>
           </Card>
     </div>
   )

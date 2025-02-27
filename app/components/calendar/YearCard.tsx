@@ -12,14 +12,14 @@ interface Props {
 const YearCard = ({ year, addCourse, removeCourse }: Props) => {
   return (
     <div>
-        <Card className="m-5 !bg-dark-secondary !border-none">
+        <Card className="mb-4 !bg-dark-secondary !border-none rounded-md">
             <CardHeader>
               <CardTitle className='text-xl'>Year {year.id}</CardTitle>
             </CardHeader>
             <CardContent>
             <div className="flex row gap-x-2">
               {year.quarters.map((quarter: Quarter) => (
-                <QuarterCard key={quarter.id} quarter={quarter} addCourse={addCourse} removeCourse={removeCourse}/>
+                <QuarterCard key={quarter.id} year={year} quarter={quarter} addCourse={addCourse} removeCourse={removeCourse}/>
               ))}
             </div>
             </CardContent>
