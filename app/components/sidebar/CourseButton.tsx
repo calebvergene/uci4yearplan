@@ -38,6 +38,30 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const formattedCourseName = formatCourseName(courseName)
+  
+  function formatCourseName(courseName: string) {
+    const lastDigitIndex = courseName.search(/\d[^\d]*$/);
+    if (lastDigitIndex === -1) {
+      return courseName;
+    }
+    let firstDigitOfLastSequence = lastDigitIndex;
+    while (
+      firstDigitOfLastSequence > 0 && 
+      /\d/.test(courseName[firstDigitOfLastSequence - 1])
+    ) {
+      firstDigitOfLastSequence--;
+    }
+    if (firstDigitOfLastSequence > 0) {
+      return (
+        courseName.substring(0, firstDigitOfLastSequence) + 
+        " " + 
+        courseName.substring(firstDigitOfLastSequence)
+      );
+    }
+    return courseName;
+  }
+
   // Define an array of colorful background colors
   const bgColors = [
     "bg-blue-500/60",
@@ -63,7 +87,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
   // Also define hover variants for the selected colors
   const getHoverClass = () => {
     if (inCalendar) {
-      return randomBgColor.replace("bg-", "hover:bg-") + "/85";
+      return randomBgColor.replace("bg-", "hover:bg-") + "/35";
     }
     return "hover:bg-dark-highlight/85";
   };
@@ -112,8 +136,8 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className={`${randomBgColor} ${getHoverClass()} px-3 py-1 rounded-lg min-w-40`}>
-              {courseName}
+            <button className={`${randomBgColor} ${getHoverClass()} px-3 py-1 rounded-md min-w-40`}>
+              {formattedCourseName}
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
