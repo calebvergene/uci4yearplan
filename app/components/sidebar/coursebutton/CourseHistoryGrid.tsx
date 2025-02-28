@@ -29,7 +29,6 @@ const CourseHistoryGrid: React.FC<CourseHistoryGridProps> = ({ terms }) => {
     return Boolean(termLookup[year.toString()] && termLookup[year.toString()].has(season));
   };
   
-
   return (
     <div className="w-full rounded-lg">
       <div className="px-4 pt-4">

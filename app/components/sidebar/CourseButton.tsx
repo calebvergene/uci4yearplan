@@ -21,7 +21,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import CourseHistoryGrid from './CourseHistoryGrid';
+import CourseHistoryGrid from './coursebutton/CourseHistoryGrid';
+import CourseDetails from './coursebutton/CourseDetails';
   
 interface Props {
   course: string;
@@ -67,8 +68,6 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     "bg-blue-500/60",
     "bg-green-500/60",
     "bg-purple-500/60",
-    "bg-yellow-500/60",
-    "bg-orange-500/60",
     "bg-indigo-500/60",
     "bg-emerald-500/60",
     "bg-teal-500/60",
@@ -193,38 +192,9 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Course: {courseName}</DialogTitle>
-            {isLoading ? (
-              <DialogDescription>
-                Loading course information...
-              </DialogDescription>
-            ) : error ? (
-              <DialogDescription className="text-red-500">
-                Error: {error}
-              </DialogDescription>
-            ) : courseData ? (
-              <div>
-                {courseData.minUnits && (
-                  <div className="mb-2 text-sm">
-                     {courseData.minUnits}<span className="font-medium"> Units</span>
-                  </div>
-                )}
-                <DialogDescription>
-                  {courseData.description}
-                </DialogDescription>
-                {courseData.geText && <div className="mt-2 text-sm font-medium">GE: <span className='text-neutral-400'>{courseData.geText}</span></div>}
-                <div className='mt-6'>Course Offerings History</div>
-                <CourseHistoryGrid terms={courseData.terms} />
-              </div>
-            ) : (
-              <DialogDescription>
-                No information available for this course.
-              </DialogDescription>
-            )}
-          </DialogHeader>
-        </DialogContent>
+        
+        <CourseDetails courseName={courseName} courseData={courseData} isLoading={isLoading} error={error} />
+        
       </Dialog>
     </div>
   )
