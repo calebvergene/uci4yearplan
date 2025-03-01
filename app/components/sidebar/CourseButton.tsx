@@ -16,12 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog"
-import CourseHistoryGrid from './coursebutton/CourseHistoryGrid';
 import CourseDetails from './coursebutton/CourseDetails';
   
 interface Props {
@@ -81,7 +76,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
       return bgColors[randomIndex];
     }
     return "bg-dark-highlight"; // Default color when not in calendar
-  }, [inCalendar]);
+  }, [inCalendar, bgColors]);
 
   // Also define hover variants for the selected colors
   const getHoverClass = () => {
