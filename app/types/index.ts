@@ -107,3 +107,23 @@ export interface CourseResponse {
   ok: boolean;
   data: CourseData;
 }
+
+export interface CourseGrade {
+  department: string;
+  courseNumber: string;
+  instructor: string;
+  gradeACount: number;
+  gradeBCount: number;
+  gradeCCount: number;
+  gradeDCount: number;
+  gradeFCount: number;
+  gradePCount: number;
+  gradeNPCount: number;
+  gradeWCount: number;
+  averageGPA: number;
+}
+
+export interface CourseGradesResponse {
+  ok: boolean;
+  data: CourseGrade[];
+}

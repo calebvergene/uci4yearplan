@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { fetchCourseData } from '@/app/actions/actions';
-import { CourseData } from '../../types';
+import { fetchCourseData, fetchZotisticsData } from '@/app/actions/actions';
+import { CourseData, CourseGrade } from '../../types';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +17,8 @@ import {
 import {
   Dialog,
 } from "@/components/ui/dialog"
-import CourseDetails from './coursebutton/CourseDetails';
+import CourseDetails from './coursebutton/CourseDetailsModal';
+import ZotisticsModal from './coursebutton/ZotisticModal';
   
 interface Props {
   course: string;
@@ -40,7 +41,9 @@ const bgColors = [
 
 const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar, year, season }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [gradesDialogOpen, setGradesDialogOpen] = useState(false)
   const [courseData, setCourseData] = useState<CourseData | null>(null)
+  const [courseGrades, setCourseGrades] = useState<CourseGrade | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -98,6 +101,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     }
   }
 
+  // Retrieve course data
   useEffect(() => {
     const loadCourseData = async () => {
       if (!dialogOpen) return;
@@ -119,75 +123,107 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
       loadCourseData();
     }
   }, [dialogOpen, courseName]);
+
+  useEffect(() => {
+    const loadCourseGrades = async () => {
+      if (!gradesDialogOpen) return;
+      
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await fetchZotisticsData(courseName);
+        setCourseGrades(data.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load course grades');
+        console.error('Error loading course grades:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (gradesDialogOpen) {
+      loadCourseGrades();
+    }
+  }, [gradesDialogOpen, courseName]);
   
   // Check if we can show the remove option (need inCalendar, year, and season)
   const canRemove = inCalendar && year && season;
   
   return (
     <div>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className={`${randomBgColor} ${getHoverClass()} px-3 py-1 rounded-md min-w-40`}>
-              {formattedCourseName}
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuGroup>
-              {!inCalendar && (
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Add to Planner</DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      {["1", "2", "3", "4"].map((year) => (
-                        <DropdownMenuSub key={`year-${year}`}>
-                          <DropdownMenuSubTrigger>Year {year}</DropdownMenuSubTrigger>
-                          <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                              {['Fall', 'Winter', 'Spring', 'Summer'].map((season) => (
-                                <DropdownMenuItem key={`year-${year}-${season.toLowerCase()}`} onClick={() => onAddClick(year, season, courseName)}>
-                                  {season}
-                                </DropdownMenuItem>
-                              ))}
-                            </DropdownMenuSubContent>
-                          </DropdownMenuPortal>
-                        </DropdownMenuSub>
-                      ))}
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-              )}
-              <DropdownMenuItem 
-                onSelect={(event) => {
-                  event.preventDefault()
-                  setDialogOpen(true)
-                }}
-              >
-                View Course Details
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuItem>
-              View Zotistics
-            </DropdownMenuItem>
-            
-            {canRemove && (
-              <>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onRemoveClick} className="text-red-500/90 hover:text-red-500 hover:bg-dark-highlight/85">
-                  Remove Course
-                  <DropdownMenuShortcut>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-2">
-                      <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>
-                    </svg>
-                  </DropdownMenuShortcut>
-                </DropdownMenuItem> 
-              </>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className={`${randomBgColor} ${getHoverClass()} px-3 py-1 rounded-md min-w-40`}>
+            {formattedCourseName}
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuGroup>
+            {!inCalendar && (
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Add to Planner</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    {["1", "2", "3", "4"].map((year) => (
+                      <DropdownMenuSub key={`year-${year}`}>
+                        <DropdownMenuSubTrigger>Year {year}</DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            {['Fall', 'Winter', 'Spring', 'Summer'].map((season) => (
+                              <DropdownMenuItem key={`year-${year}-${season.toLowerCase()}`} onClick={() => onAddClick(year, season, courseName)}>
+                                {season}
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
             )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        
+            <DropdownMenuItem 
+              onSelect={(event) => {
+                event.preventDefault()
+                setDialogOpen(true)
+              }}
+            >
+              View Course Details
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuItem 
+            onSelect={(event) => {
+              event.preventDefault()
+              setGradesDialogOpen(true)
+            }}
+          >
+            View Zotistics
+          </DropdownMenuItem>
+          
+          {canRemove && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onRemoveClick} className="text-red-500/90 hover:text-red-500 hover:bg-dark-highlight/85">
+                Remove Course
+                <DropdownMenuShortcut>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-2">
+                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>
+                  </svg>
+                </DropdownMenuShortcut>
+              </DropdownMenuItem> 
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      
+      {/* Separate Dialog for Course Details */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <CourseDetails courseName={courseName} courseData={courseData} isLoading={isLoading} error={error} />
-        
+      </Dialog>
+      
+      {/* Separate Dialog for Zotistics */}
+      <Dialog open={gradesDialogOpen} onOpenChange={setGradesDialogOpen}>
+        <ZotisticsModal courseName={courseName} courseGrades={courseGrades} isLoading={isLoading} error={error} />
       </Dialog>
     </div>
   )
