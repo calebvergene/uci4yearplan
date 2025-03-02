@@ -7,6 +7,7 @@ import {
   } from "@/components/ui/dialog"
 import CourseHistoryGrid from './CourseHistoryGrid'
 import { CourseData } from '@/app/types';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Props {
     courseName: string;
@@ -21,9 +22,13 @@ const CourseDetails = ({courseName, courseData, isLoading, error} : Props) => {
           <DialogHeader>
             <DialogTitle>Course: {courseName}</DialogTitle>
             {isLoading ? (
-              <DialogDescription>
-                Loading course information...
-              </DialogDescription>
+                <div className="flex flex-col space-y-3">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-10/12 mt-2" />
+                    <Skeleton className="h-4 w-11/12" />
+                  </div>
+                  <Skeleton className="h-[125px] w-11/12 rounded-xl mt-2" />
+                </div>
             ) : error ? (
               <DialogDescription className="text-red-500">
                 Error: {error}
