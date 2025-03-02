@@ -19,11 +19,10 @@ const chartConfig = {
 } satisfies ChartConfig
 
 interface Props {
-  courseName: string;
   data : CourseGrade[];
 }
 
-export function ZotisticsAreaGraph({courseName, data}:Props) {
+export function ZotisticsAreaGraph({data}:Props) {
 
   function aggregateGrades(data: CourseGrade[]) {
     // Initialize counters for all grade types
@@ -123,7 +122,7 @@ export function ZotisticsAreaGraph({courseName, data}:Props) {
   return (
     <div>
       <div className="flex justify-center text-sm mt-3">
-        <p>Average GPA: {result.overallGpa.toFixed(2)}</p>
+        <p>Average GPA: <span className="font-semibold">{result.overallGpa.toFixed(2)}</span></p>
       </div>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={result.aggregateGradesData} margin={{top: 20}}>
@@ -138,6 +137,7 @@ export function ZotisticsAreaGraph({courseName, data}:Props) {
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
+
             />
             <Bar dataKey="percentage" fill="#11B981" radius={4} >
             <LabelList

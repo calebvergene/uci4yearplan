@@ -36,7 +36,7 @@ const ZotisticsModal = ({courseName, courseGrades, isLoading, error} : Props) =>
               </DialogDescription>
             ) : courseGrades ? (
               <div>
-                <ZotisticsAreaGraph courseName={courseName} data={courseGrades}/>
+                <ZotisticsAreaGraph data={courseGrades}/>
               </div>
             ) : (
               <DialogDescription>
