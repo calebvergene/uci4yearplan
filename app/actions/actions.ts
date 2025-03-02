@@ -37,10 +37,11 @@ export async function fetchZotisticsData(courseName: string) {
   }
 
   const years = [2021, 2022, 2023, 2024, 2025];
-  const yearParams = years.map(year => `${year}`).join('&');
+  const yearParams = years.map(year => `year[]=${year}`).join('&');
   const quarters = ["Fall", "Winter", "Spring", "Summer1", "Summer10wk", "Summer2"];
-  const quarterParams = quarters.map(quarter => `${quarter}`).join('&');
-  const url = `https://anteaterapi.com/v2/rest/grades/aggregateByOffering?year=${yearParams}&quarter=${quarterParams}&department=${courseDepartment}&courseNumber=${courseNumber}`;
+  const quarterParams = quarters.map(quarter => `quarter[]=${quarter}`).join('&');
+  const url = `https://anteaterapi.com/v2/rest/grades/aggregateByOffering?${yearParams}&${quarterParams}&department=${courseDepartment}&courseNumber=${courseNumber}`;
+  console.log(url);
   const response = await fetch(url);
   
   if (!response.ok) {
