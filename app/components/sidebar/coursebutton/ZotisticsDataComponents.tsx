@@ -1,6 +1,7 @@
 "use client"
 
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 import {
   Table,
@@ -204,6 +205,7 @@ export function ZotisticsAreaGraph({data}:Props) {
             </Bar>
           </BarChart>
         </ChartContainer>
+      <ScrollArea className="max-h-96">
         <Table className="mt-4">
           {result.instructorGradesData.length > 0 ? (
             <TableCaption>Instructor GPA Rankings</TableCaption>) : (
@@ -226,7 +228,9 @@ export function ZotisticsAreaGraph({data}:Props) {
           </TableRow>
         ))}
       </TableBody>
+
     </Table>
+    </ScrollArea>
     </div>
   )
 }
