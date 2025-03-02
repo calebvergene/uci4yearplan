@@ -1,5 +1,7 @@
 import React from 'react'
 import { AlignJustify, Download, CloudUpload, Files } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 
 const toolbar = () => {
   return (
@@ -9,10 +11,39 @@ const toolbar = () => {
                 
             </div>
             <div className='flex flex-row gap-x-1 text-sm '>
-                <button className='flex row py-1 px-3 rounded-lg hover:bg-dark-highlight duration-100'><span className='mr-1'><Download size={16} className='mt-0.5'/></span><span className='mt-0.5'>Save</span></button>
-                <button className='flex row py-1 px-3 rounded-lg hover:bg-dark-highlight duration-100'><span className='mr-1'><CloudUpload size={16} className='mt-1' /></span><span className='mt-0.5'>Load</span></button>
-                <button className='flex row py-1 px-3 rounded-lg hover:bg-dark-highlight duration-100'><span className='mr-1'><Files size={16} className='mt-1' /></span><span className='mt-0.5'>Import</span></button>
-                <button className='ml-2'><AlignJustify/></button>
+            <SignedOut>
+              <SignUpButton mode="modal" 
+                appearance={{
+                  baseTheme: dark,
+                  variables: {
+                    colorBackground: '#1e1e1e',
+                    colorInputBackground: '#2d2d2d', 
+                    colorText: '#ffffff'
+                  }
+                }}>
+                <button className= "bg-zinc-800 text-white py-2 px-4 mr-2 rounded-md flex row">
+                <Download size={16} className='mt-0.5 mr-1'/>
+                  Save Planner
+                </button>
+              </SignUpButton>
+              <SignInButton mode="modal" 
+                appearance={{
+                  baseTheme: dark,
+                  variables: {
+                    colorBackground: '#1e1e1e',
+                    colorInputBackground: '#2d2d2d', 
+                    colorText: '#ffffff'
+                  }
+                }}>
+                <button className="bg-emerald-600 text-neutral-50 py-2 px-4 mr-2 rounded-md flex row">
+                Login
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+              
+            </SignedIn>
             </div>
         </div>
     </div>

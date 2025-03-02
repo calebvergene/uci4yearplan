@@ -28,6 +28,16 @@ interface Props {
   season?: string;
 }
 
+const bgColors = [
+  "bg-blue-500/60",
+  "bg-green-500/60",
+  "bg-purple-500/60",
+  "bg-indigo-500/60",
+  "bg-emerald-500/60",
+  "bg-teal-500/60",
+  "bg-cyan-500/60",
+];
+
 const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar, year, season }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [courseData, setCourseData] = useState<CourseData | null>(null)
@@ -58,25 +68,13 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     return courseName;
   }
 
-  // Define an array of colorful background colors
-  const bgColors = [
-    "bg-blue-500/60",
-    "bg-green-500/60",
-    "bg-purple-500/60",
-    "bg-indigo-500/60",
-    "bg-emerald-500/60",
-    "bg-teal-500/60",
-    "bg-cyan-500/60",
-  ];
-
-  // Use useMemo to pick a random color that stays consistent for this component instance
   const randomBgColor = useMemo(() => {
     if (inCalendar) {
       const randomIndex = Math.floor(Math.random() * bgColors.length);
       return bgColors[randomIndex];
     }
-    return "bg-dark-highlight"; // Default color when not in calendar
-  }, [inCalendar, bgColors]);
+    return "bg-dark-highlight";
+  }, [inCalendar]);
 
   // Also define hover variants for the selected colors
   const getHoverClass = () => {
