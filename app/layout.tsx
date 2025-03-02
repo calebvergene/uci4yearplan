@@ -20,13 +20,37 @@ export const metadata: Metadata = {
   description: 'A 4 year planner designed for UCI students',
 }
 
+const localization = {
+  signIn: {
+    start: {
+      title: "Welcome Back",
+      subtitle: "Sign in to access your planner", // Custom subtitle
+      actionText: "Don't have an account?",
+      actionLink: "Sign up",
+      emailAddressLabel: "Your Email", // Customize the email field label
+      usernamePlaceholder: "Enter your email address"
+    },
+    
+  },
+  signUp: {
+    start: {
+      title: 'Create Your Account',
+      subtitle: 'Sign up to save your planner',
+      actionText: 'Have an account?',
+      actionLink: 'Sign in',
+    },
+    
+  },
+  // You can also customize error messages, buttons, etc.
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={localization}>
       <html lang="en" className="dark">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}

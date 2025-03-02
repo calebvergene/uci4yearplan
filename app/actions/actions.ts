@@ -41,7 +41,6 @@ export async function fetchZotisticsData(courseName: string) {
   const quarters = ["Fall", "Winter", "Spring", "Summer1", "Summer10wk", "Summer2"];
   const quarterParams = quarters.map(quarter => `${quarter}`).join('&');
   const url = `https://anteaterapi.com/v2/rest/grades/aggregateByOffering?year=${yearParams}&quarter=${quarterParams}&department=${courseDepartment}&courseNumber=${courseNumber}`;
-  console.log(url);
   const response = await fetch(url);
   
   if (!response.ok) {

@@ -18,7 +18,7 @@ import {
   Dialog,
 } from "@/components/ui/dialog"
 import CourseDetails from './coursebutton/CourseDetailsModal';
-import ZotisticsModal from './coursebutton/ZotisticModal';
+import ZotisticsModal from './coursebutton/ZotisticsModal';
   
 interface Props {
   course: string;
@@ -43,7 +43,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
   const [dialogOpen, setDialogOpen] = useState(false)
   const [gradesDialogOpen, setGradesDialogOpen] = useState(false)
   const [courseData, setCourseData] = useState<CourseData | null>(null)
-  const [courseGrades, setCourseGrades] = useState<CourseGrade | null>(null)
+  const [courseGrades, setCourseGrades] = useState<CourseGrade[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

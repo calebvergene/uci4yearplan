@@ -7,10 +7,11 @@ import {
   } from "@/components/ui/dialog"
 import { CourseGrade } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ZotisticsAreaGraph } from './ZotisticsAreaGraph';
 
 interface Props {
     courseName: string;
-    courseGrades: CourseGrade | null;
+    courseGrades: CourseGrade[] | null;
     isLoading: boolean;
     error: string | null;
 }
@@ -35,7 +36,7 @@ const ZotisticsModal = ({courseName, courseGrades, isLoading, error} : Props) =>
               </DialogDescription>
             ) : courseGrades ? (
               <div>
-                test does this work lollllllllll
+                <ZotisticsAreaGraph courseName={courseName} data={courseGrades}/>
               </div>
             ) : (
               <DialogDescription>
