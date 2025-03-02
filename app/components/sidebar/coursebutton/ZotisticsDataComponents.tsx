@@ -3,6 +3,16 @@
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 
 import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
@@ -84,16 +94,6 @@ export function ZotisticsAreaGraph({data}:Props) {
     if (studentsWithLetterGrades > 0) {
       // Method 1: Calculate from the weighted sum
       totals.overallGpa = totals.weightedGpaSum / studentsWithLetterGrades;
-      
-      // Method 2: Alternative calculation directly from grades
-      const directGpaSum = 
-        (totals.gradeACount * 4.0) + 
-        (totals.gradeBCount * 3.0) + 
-        (totals.gradeCCount * 2.0) + 
-        (totals.gradeDCount * 1.0) + 
-        (totals.gradeFCount * 0.0);
-      
-      totals.overallGpa = directGpaSum / studentsWithLetterGrades;
     }
     
   const totalGradeCount = totals.gradeACount + totals.gradeBCount + totals.gradeCCount + 
@@ -111,9 +111,61 @@ export function ZotisticsAreaGraph({data}:Props) {
     { letter: "NP", percentage: parseFloat(((totals.gradeNPCount / totalGradeCount) * 100).toFixed(1)) },
   ];
 
+  interface InstructorGpaData {
+    instructor: string,
+    gpa: GLfloat,
+    studentCount: number,
+    studentPercentage: GLfloat
+  }
+  
+  const instructorData: InstructorGpaData[] = [];
+  let totalStudentsAcrossAllInstructors = 0;
+  
+  // First, calculate the total students across all instructors
+  data.forEach(course => {
+    if (course.instructor) {
+      const instructorStudentCount = 
+        (course.gradeACount || 0) + 
+        (course.gradeBCount || 0) + 
+        (course.gradeCCount || 0) + 
+        (course.gradeDCount || 0) + 
+        (course.gradeFCount || 0);
+      
+      totalStudentsAcrossAllInstructors += instructorStudentCount;
+    }
+  });
+  
+  data.forEach(course => {
+    if (course.instructor && course.averageGPA) {
+      // Calculate number of students with letter grades for this instructor
+      const instructorStudentCount = 
+        (course.gradeACount || 0) + 
+        (course.gradeBCount || 0) + 
+        (course.gradeCCount || 0) + 
+        (course.gradeDCount || 0) + 
+        (course.gradeFCount || 0);
+      
+      // Only include instructors with at least 5 students for statistical significance
+      if (instructorStudentCount >= 100) {
+        // Add a new entry to the array instead of using an object with keys
+        instructorData.push({
+          instructor: course.instructor,
+          gpa: parseFloat(course.averageGPA.toFixed(3)),
+          studentCount: instructorStudentCount,
+          studentPercentage: parseFloat(((instructorStudentCount / totalStudentsAcrossAllInstructors) * 100).toFixed(1))
+        });
+      }
+    }
+  });
+  
+  // Sort the array by GPA (highest to lowest)
+  instructorData.sort((a, b) => b.gpa - a.gpa);
+
+    
   return {
     overallGpa: totals.overallGpa,
-    aggregateGradesData: formattedOutput
+    aggregateGradesData: formattedOutput,
+    instructorGradesData: instructorData
   };
   }
 
@@ -149,6 +201,27 @@ export function ZotisticsAreaGraph({data}:Props) {
             </Bar>
           </BarChart>
         </ChartContainer>
+        <Table className="mt-4">
+      <TableCaption>Instructor GPA Rankings</TableCaption>
+      <TableHeader>
+        <TableRow className="border-neutral-600/90">
+          <TableHead className="w-1/3">Instructor</TableHead>
+          <TableHead className="w-full">GPA</TableHead>
+          <TableHead className="place-content-center mx-1">Students</TableHead>
+          <TableHead className="text-right">%</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {result.instructorGradesData.map((instructor) => (
+          <TableRow key={instructor.instructor} className="text-neutral-300 border-neutral-600/30">
+            <TableCell className="font-medium">{instructor.instructor}</TableCell>
+            <TableCell>{instructor.gpa}</TableCell>
+            <TableCell className="text-right">{instructor.studentCount}</TableCell>
+            <TableCell className="text-right">{instructor.studentPercentage}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
     </div>
   )
 }

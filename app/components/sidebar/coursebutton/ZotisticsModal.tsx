@@ -7,7 +7,7 @@ import {
   } from "@/components/ui/dialog"
 import { CourseGrade } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ZotisticsAreaGraph } from './ZotisticsAreaGraph';
+import { ZotisticsAreaGraph } from './ZotisticsDataComponents';
 
 interface Props {
     courseName: string;
@@ -18,7 +18,7 @@ interface Props {
 
 const ZotisticsModal = ({courseName, courseGrades, isLoading, error} : Props) => {
   return (
-    <DialogContent>
+    <DialogContent className='max-w-xl'>
           <DialogHeader>
             <DialogTitle>Course: {courseName}</DialogTitle>
             {isLoading ? (
