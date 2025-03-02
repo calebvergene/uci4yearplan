@@ -23,12 +23,12 @@ const CourseDetails = ({courseName, courseData, isLoading, error} : Props) => {
             <DialogTitle>Course: {courseName}</DialogTitle>
             {isLoading ? (
                 <div className="flex flex-col space-y-3">
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <Skeleton className="h-4 w-6/12 mt-2" />
                     <Skeleton className="h-4 w-10/12"/>
                     <Skeleton className="h-4 w-11/12"/>
                   </div>
-                  <Skeleton className="h-[175px] w-11/12 rounded-xl mt-2" />
+                  <Skeleton className="h-[200px] w-11/12 rounded-xl mt-2" />
                 </div>
             ) : error ? (
               <DialogDescription className="text-red-500">

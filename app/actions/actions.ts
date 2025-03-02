@@ -36,7 +36,7 @@ export async function fetchZotisticsData(courseName: string) {
     throw new Error("Invalid course name format: Cannot separate department and number");
   }
 
-  const years = [2021, 2022, 2023, 2024, 2025];
+  const years = [2022, 2023, 2024, 2025];
   const yearParams = years.map(year => `year[]=${year}`).join('&');
   const quarters = ["Fall", "Winter", "Spring", "Summer1", "Summer10wk", "Summer2"];
   const quarterParams = quarters.map(quarter => `quarter[]=${quarter}`).join('&');

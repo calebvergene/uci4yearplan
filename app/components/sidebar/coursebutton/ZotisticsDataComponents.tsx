@@ -174,7 +174,10 @@ export function ZotisticsAreaGraph({data}:Props) {
   return (
     <div>
       <div className="flex justify-center text-sm mt-3">
-        <p>Average GPA: <span className="font-semibold">{result.overallGpa.toFixed(2)}</span></p>
+        {result.overallGpa > 0 ? (
+          <p className="text-neutral-300">Average GPA: <span className="font-semibold text-white">{result.overallGpa.toFixed(2)}</span></p>
+          ) : (<p className="text-neutral-300">No Course Information Found</p>
+        )}
       </div>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={result.aggregateGradesData} margin={{top: 20}}>
@@ -202,7 +205,9 @@ export function ZotisticsAreaGraph({data}:Props) {
           </BarChart>
         </ChartContainer>
         <Table className="mt-4">
-      <TableCaption>Instructor GPA Rankings</TableCaption>
+          {result.instructorGradesData.length > 0 ? (
+            <TableCaption>Instructor GPA Rankings</TableCaption>) : (
+            <TableCaption>Insufficient Instructor Data</TableCaption>) }
       <TableHeader>
         <TableRow className="border-neutral-600/90">
           <TableHead className="w-1/3">Instructor</TableHead>
