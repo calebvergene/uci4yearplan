@@ -1,5 +1,5 @@
 import React from 'react'
-import { AlignJustify, Download, CloudUpload, Files } from "lucide-react";
+import { Download } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 
