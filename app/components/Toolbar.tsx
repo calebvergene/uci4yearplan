@@ -2,14 +2,21 @@ import React from 'react'
 import { Download } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-
+import Image
+ from 'next/image';
 const toolbar = () => {
   return (
     <div>
         <div className='flex justify-between py-3 px-5 border-b border-dark-secondary'>
-            <div className=''>
-                
-            </div>
+          <button className='flex flex-row items-center'>
+            <Image 
+              src="/uci4yearplanlogo.png"
+              width={35}
+              height={35}
+              alt="UCI 4 Year Plan Logo"
+            />
+            <h1 className='ml-1 my-auto font-semibold text-lg'>uci4yearplan</h1>
+          </button>
             <div className='flex flex-row gap-x-1 text-sm '>
             <SignedOut>
               <SignUpButton mode="modal" 
@@ -35,7 +42,7 @@ const toolbar = () => {
                     colorText: '#ffffff'
                   }
                 }}>
-                <button className="bg-emerald-500/90 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
+                <button className="bg-emerald-600 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
                 Login
                 </button>
               </SignInButton>
