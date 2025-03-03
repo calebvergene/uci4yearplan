@@ -58,6 +58,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
       ]
     },
   ]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   
   useEffect(() => {
     if (loadedPlanner) {
@@ -68,6 +69,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
           courses: quarter.courses || []
         }))
       })) as Year[]);
+      setIsDataLoaded(true);
     }
   }, [loadedPlanner]);
 
@@ -75,7 +77,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
     if (userId && years.length > 0) {
       prismaUpdatePlanner({years: years, userId: userId});
     }
-  }, [years]);
+  }, [years, isDataLoaded]);
 
 
   const addCourse = (yearId: string, quarterId: string, newCourse: string) => {

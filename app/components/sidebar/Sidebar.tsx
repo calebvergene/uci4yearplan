@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
 import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
@@ -40,11 +41,21 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
             removeCourse={removeCourse}
           />
         ) : (
-          <div>Loading major section...</div>
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-4 w-full mt-2 ml-6" />
+          </div>
         )}
       </TabsContent>
-      <TabsContent value="Minor">Change your password here.</TabsContent>
-      <TabsContent value="GEs">GEs</TabsContent>
+      <TabsContent value="Minor">
+        <div className='mt-4 w-full flex justify-center'>
+          <h1>Minors Feature Coming Soon...</h1>
+        </div>
+      </TabsContent>
+      <TabsContent value="GEs">
+        <div className='mt-4 w-full flex justify-center'>
+          <h1>GEs Feature Coming Soon...</h1>
+        </div>
+      </TabsContent>
     </Tabs>
   )
 }
