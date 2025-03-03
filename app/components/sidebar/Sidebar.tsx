@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './MajorSection'
-import { fetchMajorClasses } from '@/app/actions/actions'
+import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
 
 interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;

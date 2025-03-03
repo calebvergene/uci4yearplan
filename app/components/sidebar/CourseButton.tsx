@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { fetchCourseData, fetchZotisticsData } from '@/app/actions/actions';
+import { fetchCourseData, fetchZotisticsData } from '@/app/actions/anteaterapi/actions';
 import { CourseData, CourseGrade } from '../../types';
 import {
   DropdownMenu,

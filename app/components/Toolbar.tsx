@@ -35,7 +35,7 @@ const toolbar = () => {
                     colorText: '#ffffff'
                   }
                 }}>
-                <button className="bg-emerald-600 text-neutral-50 py-2 px-4 mr-2 rounded-md flex row">
+                <button className="bg-emerald-500/90 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
                 Login
                 </button>
               </SignInButton>
