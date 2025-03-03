@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import Toolbar from './Toolbar';
+import Toolbar from './toolbar/Toolbar';
 import CoursePlanner from './calendar/CoursePlanner';
 import Sidebar from './sidebar/Sidebar';
 import { Year } from "../types/index";
