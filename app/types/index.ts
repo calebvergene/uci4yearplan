@@ -33,11 +33,13 @@ export interface ApiResponse {
   
 export interface Quarter {
     id: string;
+    name?: string;
     courses: string[];
   }
   
 export interface Year {
     id: string;
+    yearNumber?: string;
     quarters: Quarter[];
   }
 

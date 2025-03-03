@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Toolbar from './Toolbar';
 import CoursePlanner from './calendar/CoursePlanner';
 import Sidebar from './sidebar/Sidebar';
@@ -12,9 +12,14 @@ import {
 } from "@/components/ui/resizable"
 import { toast } from 'sonner';
 import {TriangleAlert} from 'lucide-react';
+import { prismaUpdatePlanner } from '../actions/planner/updatePlanner';
 
+interface Props {
+    loadedPlanner?: Year[];
+    userId?: string;
+}
 
-export default function Root() {
+export default function Root( { loadedPlanner, userId }: Props ) {
   const [years, setYears] = useState<Year[]>([
     {
       id: '1',
@@ -53,6 +58,25 @@ export default function Root() {
       ]
     },
   ]);
+  
+  useEffect(() => {
+    if (loadedPlanner) {
+      setYears(loadedPlanner.map((year) => ({
+        id: year.yearNumber || year.id,
+        quarters: year.quarters.map((quarter) => ({
+          id: quarter.name || quarter.id,
+          courses: quarter.courses || []
+        }))
+      })) as Year[]);
+    }
+  }, [loadedPlanner]);
+
+  useEffect(() => {
+    if (userId && years.length > 0) {
+      prismaUpdatePlanner({years: years, userId: userId});
+    }
+  }, [years]);
+
 
   const addCourse = (yearId: string, quarterId: string, newCourse: string) => {
 

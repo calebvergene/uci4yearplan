@@ -36,7 +36,7 @@ model Planner {
 // Year model
 model Year {
   id         String    @id @default(cuid())
-  yearNumber Int
+  yearNumber String
   plannerId  String
   planner    Planner   @relation(fields: [plannerId], references: [id], onDelete: Cascade)
   quarters   Quarter[]
