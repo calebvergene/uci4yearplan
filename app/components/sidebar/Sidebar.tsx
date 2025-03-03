@@ -13,14 +13,14 @@ interface Props {
 
 const Sidebar = ({ addCourse, removeCourse }: Props) => {
   const [majors, setMajors] = useState([]);
-  
+
   useEffect(() => {
     const fetchMajors = async () => {
       const res = await fetch('https://anteaterapi.com/v2/rest/programs/majors');
       const data = await res.json();
       setMajors(data.data);
     };
-    
+
     fetchMajors();
   }, []);
 
@@ -33,10 +33,10 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
       </TabsList>
       <TabsContent value="Major">
         {majors.length > 0 ? (
-          <MajorSection 
-            majors={majors} 
+          <MajorSection
+            majors={majors}
             fetchMajorClasses={fetchMajorClasses}
-            addCourse={addCourse} 
+            addCourse={addCourse}
             removeCourse={removeCourse}
           />
         ) : (
