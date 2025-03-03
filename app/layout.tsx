@@ -51,7 +51,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider localization={localization}>
+    <ClerkProvider localization={localization} appearance={{
+      layout: {
+        unsafe_disableDevelopmentModeWarnings: true,
+      },
+    }}>
       <html lang="en" className="dark">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
