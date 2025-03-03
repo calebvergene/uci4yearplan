@@ -17,6 +17,7 @@ export default async function Home() {
       data: {
         clerkUserId: user.id,
         email: user.emailAddresses[0].emailAddress,
+        username: user.username,
       },
     });
   }
