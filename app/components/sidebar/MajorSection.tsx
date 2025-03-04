@@ -21,17 +21,16 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, 
   const currentMajorId = searchParams.get('majorId') || "";
 
   const handleMajorChange = async (newId: string) => {
-    // If the same major is selected, clear it
+    // if the same major is selected, clear it
     const actualId = newId === currentMajorId ? "" : newId;
 
-    // Clear data if deselecting
     if (!actualId) {
       setMajorClasses(null);
       return;
     }
 
     try {
-      // Fetch data for the new selection
+      // fetch data for the new selection
       const data = await fetchMajorClasses(actualId);
       setMajorClasses(data);
     } catch (error) {
@@ -47,7 +46,7 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, 
         handleMajorChange={handleMajorChange}
       />
       {majorClasses && (
-        <div className=" px-4 pt-2">
+        <div className=" px-1 pt-3">
           <ClassSelection Requirements={majorClasses.data.requirements} addCourse={addCourse} removeCourse={removeCourse} />
         </div>
       )}

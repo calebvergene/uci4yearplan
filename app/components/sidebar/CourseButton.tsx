@@ -79,7 +79,6 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     return "bg-dark-highlight";
   }, [inCalendar]);
 
-  // Also define hover variants for the selected colors
   const getHoverClass = () => {
     if (inCalendar) {
       return randomBgColor.replace("bg-", "hover:bg-") + "/35";
@@ -92,7 +91,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
   }
 
   const onRemoveClick = () => {
-    // Only execute if we have both year and season
+    // only execute if we have both year and season
     if (inCalendar && year && season) {
       console.log(`Removing course ${courseName} from Year ${year}, ${season}`);
       removeCourse(year, season, courseName);

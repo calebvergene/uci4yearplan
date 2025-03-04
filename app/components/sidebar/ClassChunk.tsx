@@ -58,7 +58,7 @@ const ClassSelectionChunk = ({
     );
   }
   
-  // Regular requirement rendering with improved visual hierarchy
+  // Regular requirement
   return (
     <div className="transition-all duration-200 hover:bg-neutral-700/20 p-2 rounded-md">
       {!isMatch && (
@@ -68,7 +68,7 @@ const ClassSelectionChunk = ({
       )}
       
       {requirement.courses && requirement.courses.length > 0 && (
-        <div className="ml-2 border-l-2 border-neutral-600 pl-3 mt-2">
+        <div className="ml-2 border-l-2 border-neutral-600 pl-3 py-1">
           {requirement.courses.length > 1 && (
             <h3 className="font-medium text-sm text-gray-300">
               <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">

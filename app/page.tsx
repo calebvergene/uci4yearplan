@@ -6,11 +6,11 @@ import { Year } from './types';
 
 export default async function Home() {
   const user = await currentUser();
-  let years: Year[] | undefined = undefined; // Initialize as undefined instead of null
+  let years: Year[] | undefined = undefined;
   let userId: string | undefined = undefined;
 
   if (user) {
-    // First find or create the user
+    // first, need to find or create the user
     let loggedInUser = await db.user.findUnique({
       where: { clerkUserId: user.id },
     });
@@ -25,10 +25,9 @@ export default async function Home() {
       });
     }
     
-    // Load the planner
+    // load the planner
     const planner = await prismaLoadUserPlanner(loggedInUser.id);
     
-    // Extract just the years array from the planner
     years = planner?.years;
     userId = loggedInUser.id;
   }

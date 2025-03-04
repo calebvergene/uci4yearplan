@@ -74,7 +74,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
   }, [loadedPlanner]);
 
   useEffect(() => {
-    if (userId && years.length > 0) {
+    if (userId && years.length > 0 && isDataLoaded) {
       prismaUpdatePlanner({years: years, userId: userId});
     }
   }, [years, isDataLoaded]);
@@ -82,7 +82,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
 
   const addCourse = (yearId: string, quarterId: string, newCourse: string) => {
 
-    // Need to check if course already in planner
+    // need to check if course already in planner
     let existingLocation = null;
   
     for (const year of years) {
