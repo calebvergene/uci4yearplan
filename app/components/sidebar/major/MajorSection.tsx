@@ -2,9 +2,11 @@
 
 import React from 'react'
 import MajorSelect from './MajorSelect'
-import { Major, ApiResponse } from "../../types"
+import { Major, ApiResponse } from "../../../types"
 import { useSearchParams } from 'next/navigation'
-import ClassSelection from './ClassSelection'
+import ClassSelection from '../ClassSelection'
+import { Skeleton } from '@/components/ui/skeleton'
+import MajorSkeleton from './MajorSkeleton'
 
 interface Props {
   majors: Major[];
@@ -16,16 +18,19 @@ interface Props {
 
 const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, removeCourse }: Props) => {
   const [majorClasses, setMajorClasses] = React.useState<ApiResponse | null>(initialMajorData || null);
+  const [isLoading, setIsLoading] = React.useState(false);
   const searchParams = useSearchParams();
 
   const currentMajorId = searchParams.get('majorId') || "";
 
   const handleMajorChange = async (newId: string) => {
+    setIsLoading(true);
     // if the same major is selected, clear it
     const actualId = newId === currentMajorId ? "" : newId;
 
     if (!actualId) {
       setMajorClasses(null);
+      setIsLoading(false);
       return;
     }
 
@@ -36,19 +41,30 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, 
     } catch (error) {
       console.error('Error fetching major classes:', error);
       setMajorClasses(null);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <div>
-      <MajorSelect 
-        majors={majors} 
+      <MajorSelect
+        majors={majors}
         handleMajorChange={handleMajorChange}
       />
-      {majorClasses && (
-        <div className=" px-1 pt-3">
-          <ClassSelection Requirements={majorClasses.data.requirements} addCourse={addCourse} removeCourse={removeCourse} />
-        </div>
+
+      {isLoading ? (
+        <MajorSkeleton />
+      ) : (
+        majorClasses && majorClasses.data.requirements.length > 0 && (
+          <div className="px-2 pt-3">
+            <ClassSelection
+              Requirements={majorClasses.data.requirements}
+              addCourse={addCourse}
+              removeCourse={removeCourse}
+            />
+          </div>
+        )
       )}
     </div>
   )

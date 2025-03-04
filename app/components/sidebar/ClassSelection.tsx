@@ -22,7 +22,7 @@ const ClassSelection = ({Requirements, addCourse, removeCourse}: Props) => {
         if (requirement.requirementType === 'Group') {
           const groupRequirement = requirement as unknown as GroupRequirement;
           return (
-            <div key={index} className='py-6'>
+            <div key={index} className='py-2'>
               {!isMatch && <h3 className="font-semibold text-2xl mb-1">{groupRequirement.label}</h3>}
               <div className='bg-dark-secondary rounded-lg'>
               {groupRequirement.requirements.map((requirement, index) => (

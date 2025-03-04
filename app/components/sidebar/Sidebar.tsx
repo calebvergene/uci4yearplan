@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import MajorSection from './MajorSection'
+import MajorSection from './major/MajorSection'
 import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
 import { Skeleton } from '@/components/ui/skeleton';
 

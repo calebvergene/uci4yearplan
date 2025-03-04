@@ -62,7 +62,7 @@ const ClassSelectionChunk = ({
   return (
     <div className="transition-all duration-200 hover:bg-neutral-700/20 p-2 rounded-md">
       {!isMatch && (
-        <h3 className={`font-semibold text-lg ${!groupRequirement ? 'pl-2' : ''} text-neutral-100`}>
+        <h3 className={`font-semibold text-lg pl-1 text-neutral-100`}>
           {requirement.label}
         </h3>
       )}
