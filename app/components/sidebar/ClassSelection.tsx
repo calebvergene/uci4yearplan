@@ -11,8 +11,6 @@ interface Props {
 const ClassSelection = ({Requirements, addCourse, removeCourse}: Props) => {
   return (
     <div className="h-[79vh] overflow-y-auto ml-2">
-      <h1 className='font-semibold text-4xl mb-2 text-decoration-line: underline'>Major Requirements</h1>
-
       {/* Parse through each first layer Requirement*/}
       {Requirements.map((requirement: Requirement, index) => {
         const normalizedLabel = requirement.label.toUpperCase().replace(/\s+/g, '');
@@ -28,7 +26,7 @@ const ClassSelection = ({Requirements, addCourse, removeCourse}: Props) => {
               {!isMatch && <h3 className="font-semibold text-2xl mb-1">{groupRequirement.label}</h3>}
               <div className='bg-dark-secondary rounded-lg'>
               {groupRequirement.requirements.map((requirement, index) => (
-                <div key={index} className='pl-4 py-1 pb-3 '>
+                <div key={index} className='ml-4 py-2'>
                   <ClassSelectionChunk requirement={requirement} groupRequirement={true} addCourse={addCourse} removeCourse={removeCourse}/>
               </div>
               ))}

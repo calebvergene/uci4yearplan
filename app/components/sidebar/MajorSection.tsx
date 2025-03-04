@@ -47,7 +47,7 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, 
         handleMajorChange={handleMajorChange}
       />
       {majorClasses && (
-        <div className="mt-4 p-4">
+        <div className=" px-4 pt-2">
           <ClassSelection Requirements={majorClasses.data.requirements} addCourse={addCourse} removeCourse={removeCourse} />
         </div>
       )}
