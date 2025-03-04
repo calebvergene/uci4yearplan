@@ -5,7 +5,6 @@ import MajorSelect from './MajorSelect'
 import { Major, ApiResponse } from "../../../types"
 import { useSearchParams } from 'next/navigation'
 import ClassSelection from '../ClassSelection'
-import { Skeleton } from '@/components/ui/skeleton'
 import MajorSkeleton from './MajorSkeleton'
 
 interface Props {
