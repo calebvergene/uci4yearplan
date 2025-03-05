@@ -17,7 +17,7 @@ const YearCard = ({ year, addCourse, removeCourse }: Props) => {
               <CardTitle className='text-xl'>Year {year.id}</CardTitle>
             </CardHeader>
             <CardContent>
-            <div className="flex row gap-x-2">
+            <div className="flex flex-wrap sm:flex-nowrap gap-2 overflow-x-auto sm:overflow-x-scroll">
               {year.quarters.map((quarter: Quarter) => (
                 <QuarterCard key={quarter.id} year={year} quarter={quarter} addCourse={addCourse} removeCourse={removeCourse}/>
               ))}

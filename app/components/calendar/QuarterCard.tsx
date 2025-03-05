@@ -14,7 +14,7 @@ const QuarterCard = ({ year, quarter, addCourse, removeCourse }: Props) => {
 
   return (
     <div className='w-full'>
-        <Card className="px-1 !bg-dark-accent !border-none min-w-50 rounded-md">
+        <Card className="px-1 !bg-dark-accent !border-none min-w-56 rounded-md">
             <CardTitle className='font-medium py-1 mb-5 pl-4 mx-1 text-sm border-b border-dark-highlight flex row justify-between'>
               <div className='py-1'>{quarter.id}</div>
               <div className='flex row'>
