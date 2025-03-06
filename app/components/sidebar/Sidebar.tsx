@@ -63,7 +63,7 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
               <span>K</span>
             </div>
           </button>
-          <SearchModal open={open} setOpen={setOpen} />
+          <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
         </div>
       </TabsList>
 

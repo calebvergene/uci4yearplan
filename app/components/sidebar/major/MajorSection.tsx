@@ -4,7 +4,7 @@ import React from 'react'
 import MajorSelect from './MajorSelect'
 import { Major, ApiResponse } from "../../../types"
 import { useSearchParams } from 'next/navigation'
-import ClassSelection from '../ClassSelection'
+import ClassSelection from '../../sidebar_courses/ClassSelection'
 import MajorSkeleton from './MajorSkeleton'
 
 interface Props {

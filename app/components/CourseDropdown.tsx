@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react';
 import { fetchCourseData, fetchZotisticsData } from '@/app/actions/anteaterapi/actions';
-import { CourseData, CourseGrade } from '../../types';
+import { CourseData, CourseGrade } from '../types/index';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,82 +13,46 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
-} from "@/components/ui/dialog"
-import CourseDetails from './coursebutton/CourseDetailsModal';
-import ZotisticsModal from './coursebutton/ZotisticsModal';
+} from "@/components/ui/dialog";
+import CourseDetails from './sidebar/coursebutton/CourseDetailsModal';
+import ZotisticsModal from './sidebar/coursebutton/ZotisticsModal';
 
-interface Props {
-  course: string;
+interface CourseDropdownProps {
+  courseName: string;
+  formattedCourseName: string;
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
   inCalendar?: boolean;
   year?: string;
   season?: string;
+  buttonClassName?: string;
+  customTrigger?: React.ReactNode;
 }
 
-const bgColors = [
-  "bg-blue-500/60",
-  "bg-green-500/60",
-  "bg-purple-500/60",
-  "bg-indigo-500/60",
-  "bg-emerald-500/60",
-  "bg-teal-500/60",
-  "bg-cyan-500/60",
-];
-
-const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar, year, season }: Props) => {
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [gradesDialogOpen, setGradesDialogOpen] = useState(false)
-  const [courseData, setCourseData] = useState<CourseData | null>(null)
-  const [courseGrades, setCourseGrades] = useState<CourseGrade[] | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const formattedCourseName = formatCourseName(courseName)
-
-  function formatCourseName(courseName: string) {
-    const lastDigitIndex = courseName.search(/\d[^\d]*$/);
-    if (lastDigitIndex === -1) {
-      return courseName;
-    }
-    let firstDigitOfLastSequence = lastDigitIndex;
-    while (
-      firstDigitOfLastSequence > 0 &&
-      /\d/.test(courseName[firstDigitOfLastSequence - 1])
-    ) {
-      firstDigitOfLastSequence--;
-    }
-    if (firstDigitOfLastSequence > 0) {
-      return (
-        courseName.substring(0, firstDigitOfLastSequence) +
-        " " +
-        courseName.substring(firstDigitOfLastSequence)
-      );
-    }
-    return courseName;
-  }
-
-  const randomBgColor = useMemo(() => {
-    if (inCalendar) {
-      const randomIndex = Math.floor(Math.random() * bgColors.length);
-      return bgColors[randomIndex];
-    }
-    return "bg-dark-highlight";
-  }, [inCalendar]);
-
-  const getHoverClass = () => {
-    if (inCalendar) {
-      return randomBgColor.replace("bg-", "hover:bg-") + "/35";
-    }
-    return "hover:bg-dark-highlight/85";
-  };
+export const CourseDropdown = ({ 
+  courseName,
+  formattedCourseName,
+  addCourse,
+  removeCourse,
+  inCalendar,
+  year,
+  season,
+  buttonClassName,
+  customTrigger
+}: CourseDropdownProps) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [gradesDialogOpen, setGradesDialogOpen] = useState(false);
+  const [courseData, setCourseData] = useState<CourseData | null>(null);
+  const [courseGrades, setCourseGrades] = useState<CourseGrade[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const onAddClick = (yearId: string, quarterId: string, Course: string) => {
     addCourse(yearId, quarterId, Course);
-  }
+  };
 
   const onRemoveClick = () => {
     // only execute if we have both year and season
@@ -98,9 +62,9 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     } else {
       console.error('Cannot remove course: missing year or season information');
     }
-  }
+  };
 
-  // Retrieve course data
+  // retrieve course data
   useEffect(() => {
     const loadCourseData = async () => {
       if (!dialogOpen) return;
@@ -145,16 +109,20 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
     }
   }, [gradesDialogOpen, courseName]);
 
-  // Check if we can show the remove option (need inCalendar, year, and season)
+  // check if we can show the remove option (need inCalendar, year, and season)
   const canRemove = inCalendar && year && season;
 
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button className={`${randomBgColor} ${getHoverClass()} px-3 py-1 rounded-md min-w-40`}>
-            {formattedCourseName}
-          </button>
+          {customTrigger ? (
+            customTrigger
+          ) : (
+            <button className={buttonClassName}>
+              {formattedCourseName}
+            </button>
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuGroup>
@@ -183,8 +151,8 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
             )}
             <DropdownMenuItem
               onSelect={(event) => {
-                event.preventDefault()
-                setDialogOpen(true)
+                event.preventDefault();
+                setDialogOpen(true);
               }}
             >
               View Course Details
@@ -192,8 +160,8 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
           </DropdownMenuGroup>
           <DropdownMenuItem
             onSelect={(event) => {
-              event.preventDefault()
-              setGradesDialogOpen(true)
+              event.preventDefault();
+              setGradesDialogOpen(true);
             }}
           >
             View Zotistics
@@ -225,7 +193,7 @@ const CourseButton = ({ course: courseName, addCourse, removeCourse, inCalendar,
         <ZotisticsModal courseName={courseName} courseGrades={courseGrades} isLoading={isLoading} error={error} />
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default CourseButton
+export default CourseDropdown;

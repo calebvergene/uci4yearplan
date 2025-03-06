@@ -11,6 +11,7 @@ import {
   CustomCommandItem,
   CustomCommandSeparator
 } from '../../components/customCommand';
+import CourseDropdown from './CourseDropdown';
 
 const MAX_DISPLAY_ITEMS = 10;
 const MIN_SEARCH_CHARS = 2;
@@ -18,9 +19,11 @@ const MIN_SEARCH_CHARS = 2;
 interface SearchModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
+  removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const SearchModal = ({ open, setOpen }: SearchModalProps) => {
+const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProps) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchNoSpaceQuery, setSearchNoSpaceQuery] = useState<string>('');
   const [filteredDepartments, setFilteredDepartments] = useState<DepartmentSearchResult[]>(departments.slice(0, MAX_DISPLAY_ITEMS));
@@ -45,21 +48,21 @@ const SearchModal = ({ open, setOpen }: SearchModalProps) => {
 
     // Filter departments - match on ID or name containing the query
     const filteredDepartments = departments
-      .filter(dept => 
+      .filter(dept =>
         dept.id.toLowerCase().includes(query)
       )
       .slice(0, MAX_DISPLAY_ITEMS);
 
     // Filter courses - match on ID or name containing the query
     const filteredCourses = courses
-      .filter(course => 
+      .filter(course =>
         course.id.toLowerCase().includes(query)
       )
       .slice(0, MAX_DISPLAY_ITEMS);
 
     return { filteredDepartments, filteredCourses };
   };
-  
+
   useEffect(() => {
     const { filteredDepartments: newDepartments, filteredCourses: newCourses } = getFilteredResults();
     setFilteredDepartments(newDepartments);
@@ -67,7 +70,7 @@ const SearchModal = ({ open, setOpen }: SearchModalProps) => {
     console.log("Search query changed:", searchQuery);
     console.log("Filtered results:", newCourses);
   }, [searchNoSpaceQuery]);
-  
+
   return (
     <CustomCommandDialog open={open} onOpenChange={setOpen}>
       <CustomCommandInput
@@ -80,33 +83,41 @@ const SearchModal = ({ open, setOpen }: SearchModalProps) => {
           <CustomCommandEmpty>No results found.</CustomCommandEmpty>
         ) : (
           <>
-          {filteredDepartments.length > 0 && (
-            <div>
-            <CustomCommandGroup heading="Departments">
-              {filteredDepartments.map(department => (
-                <div key={department.id} className="item">
-                  <CustomCommandItem>
-                    <span className="text-xl mr-1">📂</span>
-                    {department.id}: {department.name}
-                  </CustomCommandItem>
-                </div>
-              ))}
-            </CustomCommandGroup>
-            </div>
-          )}
-          {filteredDepartments.length > 0 && filteredCourses.length > 0 && (
-            <CustomCommandSeparator />
-          )}
-          
+            {filteredDepartments.length > 0 && (
+              <div>
+                <CustomCommandGroup heading="Departments">
+                  {filteredDepartments.map(department => (
+                    <div key={department.id} className="item">
+                      <CustomCommandItem>
+                        <span className="text-xl mr-1">📂</span>
+                        {department.id}: {department.name}
+                      </CustomCommandItem>
+                    </div>
+                  ))}
+                </CustomCommandGroup>
+              </div>
+            )}
+            {filteredDepartments.length > 0 && filteredCourses.length > 0 && (
+              <CustomCommandSeparator />
+            )}
+
             {filteredCourses.length > 0 && (
               <>
                 <CustomCommandGroup heading="Courses">
                   {filteredCourses.map(course => (
                     <div key={course.id} className="item">
+                      <CourseDropdown
+                        courseName={course.id}
+                        formattedCourseName={course.id}
+                        addCourse={addCourse}
+                        removeCourse={removeCourse}
+                        customTrigger={
                         <CustomCommandItem>
                           <span className="text-xl mr-1">📚</span>
                           {course.id}: {course.name}
                         </CustomCommandItem>
+                        }
+                      />
                     </div>
                   ))}
                 </CustomCommandGroup>
