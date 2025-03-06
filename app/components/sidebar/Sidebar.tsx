@@ -6,11 +6,7 @@ import MajorSection from './major/MajorSection'
 import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, Command } from 'lucide-react';
-import {
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
-
+import SearchModal from '../SearchModal';
 
 interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
@@ -67,19 +63,7 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
               <span>K</span>
             </div>
           </button>
-
-          <CommandDialog open={open} onOpenChange={setOpen}>
-            <DialogTitle></DialogTitle>
-            <CommandInput placeholder="Search for any course or school..." />
-            <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup heading="Suggestions">
-                <CommandItem>Calendar</CommandItem>
-                <CommandItem>Search Emoji</CommandItem>
-                <CommandItem>Calculator</CommandItem>
-              </CommandGroup>
-            </CommandList>
-          </CommandDialog>
+          <SearchModal open={open} setOpen={setOpen} />
         </div>
       </TabsList>
 

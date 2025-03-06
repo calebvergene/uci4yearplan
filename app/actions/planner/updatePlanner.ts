@@ -5,17 +5,17 @@ import db from "@/lib/db";
 
 interface Props {
     years: Year[];
-    userId: string;  // User ID to identify their planner
+    userId: string;
 }
 
 export async function prismaUpdatePlanner({ years, userId }: Props) {
-    // First, find the planner associated with this user
+    // first, find the planner associated with this user
     const userPlanner = await db.planner.findUnique({
         where: { userId: userId }
     });
     
     if (!userPlanner) {
-        // Create a new planner for this user if none exists
+        // create a new planner for this user if none exists
         return await db.planner.create({
             data: {
                 userId: userId,
@@ -33,12 +33,12 @@ export async function prismaUpdatePlanner({ years, userId }: Props) {
             }
         });
     } else {
-        // First delete all existing years
+        // first delete all existing years
         await db.year.deleteMany({
             where: { plannerId: userPlanner.id }
         });
         
-        // Then create new years
+        // then create new years
         return await db.planner.update({
             where: { id: userPlanner.id },
             data: {

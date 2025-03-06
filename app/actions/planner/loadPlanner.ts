@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 
 export async function prismaLoadUserPlanner(userId: string) {
-  // Fetch the planner with all related data
+  // fetch the planner with all related data
   const userPlanner = await db.planner.findUnique({
     where: { userId: userId },
     include: {
