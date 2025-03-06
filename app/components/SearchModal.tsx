@@ -82,7 +82,7 @@ const SearchModal = ({ open, setOpen }: SearchModalProps) => {
               {filteredDepartments.map(department => (
                 <div key={department.id} className="item">
                   <CustomCommandItem>
-                    <span className="text-xl">📂</span>
+                    <span className="text-xl mr-1">📂</span>
                     {department.id}: {department.name}
                   </CustomCommandItem>
                 </div>
@@ -96,7 +96,7 @@ const SearchModal = ({ open, setOpen }: SearchModalProps) => {
                   {filteredCourses.map(course => (
                     <div key={course.id} className="item">
                       <CustomCommandItem>
-                        <span className="text-xl">📚</span>
+                        <span className="text-xl mr-1">📚</span>
                         {course.id}: {course.name}
                       </CustomCommandItem>
                     </div>
