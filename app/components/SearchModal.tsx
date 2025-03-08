@@ -14,7 +14,6 @@ import {
 import CourseDropdown from './CourseDropdown';
 
 const MAX_DISPLAY_ITEMS = 10;
-const MIN_SEARCH_CHARS = 2;
 
 interface SearchModalProps {
   open: boolean;
@@ -28,6 +27,9 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
   const [searchNoSpaceQuery, setSearchNoSpaceQuery] = useState<string>('');
   const [filteredDepartments, setFilteredDepartments] = useState<DepartmentSearchResult[]>(departments.slice(0, MAX_DISPLAY_ITEMS));
   const [filteredCourses, setFilteredCourses] = useState<CourseSearchResult[]>(courses.slice(0, MAX_DISPLAY_ITEMS));
+  const [tag, setTag] = useState<string>('');
+  const [minSearchChars, setMinSearchCars] = useState<number>(2)
+
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
@@ -37,7 +39,7 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
   // Basic search function
   const getFilteredResults = () => {
     // If search query is empty or too short, return all departments
-    if (!searchNoSpaceQuery || searchNoSpaceQuery.length < MIN_SEARCH_CHARS) {
+    if (!searchNoSpaceQuery || searchNoSpaceQuery.length < minSearchChars) {
       return {
         filteredDepartments: departments.slice(0, MAX_DISPLAY_ITEMS),
         filteredCourses: [] as CourseSearchResult[]
@@ -47,17 +49,22 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
     const query = searchNoSpaceQuery.toLowerCase();
 
     // Filter departments - match on ID or name containing the query
-    const filteredDepartments = departments
-      .filter(dept =>
-        dept.id.toLowerCase().includes(query)
-      )
-      .slice(0, MAX_DISPLAY_ITEMS);
+    let filteredDepartments: DepartmentSearchResult[] = []
+
+    if (tag === "" && query.length > 0) {
+      filteredDepartments = departments
+        .filter(dept =>
+          dept.id.toLowerCase().includes(query)
+        )
+        .slice(0, MAX_DISPLAY_ITEMS);
+    }
 
     // Filter courses - match on ID or name containing the query
     const filteredCourses = courses
-      .filter(course =>
-        course.id.toLowerCase().includes(query)
-      )
+      .filter(course => {
+        const courseId = course.id.toLowerCase();
+        return courseId.includes(tag.toLowerCase()) && courseId.includes(query.toLowerCase());
+      })
       .slice(0, MAX_DISPLAY_ITEMS);
 
     return { filteredDepartments, filteredCourses };
@@ -67,33 +74,40 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
     const { filteredDepartments: newDepartments, filteredCourses: newCourses } = getFilteredResults();
     setFilteredDepartments(newDepartments);
     setFilteredCourses(newCourses);
-    console.log("Search query changed:", searchQuery);
-    console.log("Filtered results:", newCourses);
-  }, [searchNoSpaceQuery]);
+    console.log(filteredCourses)
+  }, [searchNoSpaceQuery, tag]);
+
+  const onDepartmentClick = (departmentId: string) => {
+    setTag(departmentId);
+    setSearchQuery('');
+    setMinSearchCars(0);
+    setFilteredDepartments([]);
+  }
 
   return (
     <CustomCommandDialog open={open} onOpenChange={setOpen}>
       <CustomCommandInput
-        placeholder="Search for any course or school..."
+        placeholder={!tag ? ("Search for any course or school...") : ("")}
         value={searchQuery}
         onValueChange={handleSearchChange}
+        tag={tag}
+        setTag={setTag}
+        setMinSearchCars = {setMinSearchCars}
       />
       <CustomCommandList>
         {(() => {
           if (filteredDepartments.length === 0 && filteredCourses.length === 0) {
             return <CustomCommandEmpty>No results found.</CustomCommandEmpty>;
-          } else if (searchQuery.length < 2) {
-            return (
-              <CustomCommandEmpty>No results found.</CustomCommandEmpty>
-            );
+          } else if (searchQuery.length < minSearchChars) {
+            return;
           } else {
             return (
               <>
-                {filteredDepartments.length > 0 && (
+                {filteredDepartments.length > 0 && searchQuery.length > 0 && (
                   <div>
                     <CustomCommandGroup heading="Departments">
                       {filteredDepartments.map(department => (
-                        <div key={department.id} className="item">
+                        <div key={department.id} className="item" onClick={() => onDepartmentClick(department.id)}>
                           <CustomCommandItem>
                             <span className="text-xl mr-1">📂</span>
                             {department.id}: {department.name}

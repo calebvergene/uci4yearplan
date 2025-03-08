@@ -31,24 +31,40 @@ export const CustomCommandDialog = ({ children, open, onOpenChange, ...props }: 
 interface CommandInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
     value: string;
     onValueChange: (value: string) => void;
+    tag: string;
+    setTag: (tag: string) => void;
+    setMinSearchCars: (num: number) => void;
 }
 
 export const CustomCommandInput = forwardRef<HTMLInputElement, CommandInputProps>(
-    ({ className, value, onValueChange, ...props }, ref) => {
+    ({ className, value, onValueChange, tag, setTag, setMinSearchCars, ...props }, ref) => {
+
+        const onXClick = () => {
+            setTag("") 
+            setMinSearchCars(2)
+        }
+
         return (
-            <div className="flex items-center px-3 pb-4 border-b border-dark-highlight">
+            <div className={`flex items-center px-3 pb-4 ${value.length > 1 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
                 <SearchIcon className="w-5 h-5 opacity-50 shrink-0 mr-2" />
-                <input
-                    ref={ref}
-                    value={value}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => onValueChange(e.target.value)}
-                    className={cn(
-                        "flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:opacity-50",
-                        className
+
+                <div className="flex-1 flex items-center">
+                    {tag && (
+                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-1 flex row items-center mr-2'>
+                            {tag}<X size={12} className='ml-0.5' onClick={onXClick} />
+                        </div>
                     )}
-                    {...props}
-                />
-                
+                    <input
+                        ref={ref}
+                        value={value}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => onValueChange(e.target.value)}
+                        className={cn(
+                            "flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:opacity-50",
+                            className
+                        )}
+                        {...props}
+                    />
+                </div>
             </div>
         );
     }
