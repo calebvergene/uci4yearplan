@@ -45,12 +45,12 @@ export const CustomCommandInput = forwardRef<HTMLInputElement, CommandInputProps
         }
 
         return (
-            <div className={`flex items-center px-3 pb-4 ${value.length > 0 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
+            <div className={`flex items-center px-3 ${tag.length > 0 ? "pb-3" : "pb-4"} ${value.length > 0 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
                 <SearchIcon className="w-5 h-5 opacity-50 shrink-0 mr-2" />
 
                 <div className="flex-1 flex items-center">
                     {tag && (
-                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-1 flex row items-center mr-2 rounded-md'>
+                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-0.5 flex row items-center mr-2 rounded-md'>
                             {tag}<X size={12} className='ml-1' onClick={onXClick} />
                         </div>
                     )}
@@ -78,9 +78,9 @@ export const CustomCommandInput = forwardRef<HTMLInputElement, CommandInputProps
 );
 CustomCommandInput.displayName = "CustomCommandInput";
 
-interface CommandListProps extends HTMLAttributes<HTMLDivElement> {
+type CommandListProps = HTMLAttributes<HTMLDivElement> & {
     children?: ReactNode;
-}
+};
 
 export const CustomCommandList = forwardRef<HTMLDivElement, CommandListProps>(
     ({ className, children, ...props }, ref) => {
@@ -97,7 +97,7 @@ export const CustomCommandList = forwardRef<HTMLDivElement, CommandListProps>(
 );
 CustomCommandList.displayName = "CustomCommandList";
 
-interface CommandEmptyProps extends HTMLAttributes<HTMLDivElement> { }
+type CommandEmptyProps = HTMLAttributes<HTMLDivElement>;
 
 export const CustomCommandEmpty = forwardRef<HTMLDivElement, CommandEmptyProps>(
     ({ className, ...props }, ref) => {
@@ -112,7 +112,7 @@ export const CustomCommandEmpty = forwardRef<HTMLDivElement, CommandEmptyProps>(
 );
 CustomCommandEmpty.displayName = "CustomCommandEmpty";
 
-interface CommandStartProps extends HTMLAttributes<HTMLDivElement> { }
+type CommandStartProps = HTMLAttributes<HTMLDivElement>;
 
 export const CustomCommandStart = forwardRef<HTMLDivElement, CommandStartProps>(
     ({ className, ...props }, ref) => {
@@ -150,9 +150,9 @@ export const CustomCommandGroup = forwardRef<HTMLDivElement, CommandGroupProps>(
 );
 CustomCommandGroup.displayName = "CustomCommandGroup";
 
-interface CommandItemProps extends HTMLAttributes<HTMLDivElement> {
+type CommandItemProps = HTMLAttributes<HTMLDivElement> & {
     children?: ReactNode;
-}
+};
 
 export const CustomCommandItem = forwardRef<HTMLDivElement, CommandItemProps>(
     ({ className, children, ...props }, ref) => {
@@ -172,7 +172,7 @@ export const CustomCommandItem = forwardRef<HTMLDivElement, CommandItemProps>(
 );
 CustomCommandItem.displayName = "CustomCommandItem";
 
-interface CommandSeparatorProps extends HTMLAttributes<HTMLDivElement> { }
+type CommandSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 export const CustomCommandSeparator = forwardRef<HTMLDivElement, CommandSeparatorProps>(
     ({ className, ...props }, ref) => {

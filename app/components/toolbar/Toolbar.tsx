@@ -9,7 +9,7 @@ interface Props {
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-const toolbar = ({ addCourse, removeCourse }: Props) => {
+const Toolbar = ({ addCourse, removeCourse }: Props) => {
   const [open, setOpen] = React.useState(false)
 
   const onSearchClick = () => {
@@ -75,4 +75,4 @@ const toolbar = ({ addCourse, removeCourse }: Props) => {
   )
 }
 
-export default toolbar
+export default Toolbar
