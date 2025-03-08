@@ -148,7 +148,7 @@ export default function Root( { loadedPlanner, userId }: Props ) {
   
   return (
     <div className=' h-screen overflow-hidden'>
-      <Toolbar />
+      <Toolbar addCourse={addCourse} removeCourse={removeCourse} />
       <ResizablePanelGroup direction="horizontal" className='min-w-[450px]'>
 
         <ResizablePanel defaultSize={60}>
