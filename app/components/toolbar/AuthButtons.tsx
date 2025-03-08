@@ -21,12 +21,11 @@ const AuthButtons = () => {
   if (!isLoaded || showPlaceholder) {
     return (
       <div className='flex flex-row gap-x-1 text-sm'>
-        <button className="bg-zinc-800 text-white py-2 px-4 mr-2 rounded-md flex row">
-          <Download size={16} className='mt-0.5 mr-1'/>
-          Save Planner
-        </button>
-        <button className="bg-emerald-600 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
+        <button className="border border-dark-highlight bg-dark-secondary hover:bg-dark-accent hover:border-transparent duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
           Login
+        </button>
+        <button className=" text-white bg-emerald-600 hover:bg-emerald-600/90 duration-150 py-2 px-4 ml-1 rounded-md flex row">
+          Sign Up
         </button>
       </div>
     );
@@ -35,33 +34,35 @@ const AuthButtons = () => {
   return (
     <div className='flex flex-row gap-x-1 text-sm'>
       <SignedOut>
-        <SignUpButton mode="modal" 
+
+        <SignInButton mode="modal"
           appearance={{
             baseTheme: dark,
             variables: {
               colorBackground: '#1e1e1e',
-              colorInputBackground: '#2d2d2d', 
+              colorInputBackground: '#2d2d2d',
               colorText: '#ffffff'
             }
           }}>
-          <button className="bg-zinc-800 text-white py-2 px-4 mr-2 rounded-md flex row">
-            <Download size={16} className='mt-0.5 mr-1'/>
-            Save Planner
-          </button>
-        </SignUpButton>
-        <SignInButton mode="modal" 
-          appearance={{
-            baseTheme: dark,
-            variables: {
-              colorBackground: '#1e1e1e',
-              colorInputBackground: '#2d2d2d', 
-              colorText: '#ffffff'
-            }
-          }}>
-          <button className="bg-emerald-600 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
+          <button className="border border-dark-highlight bg-dark-secondary hover:bg-dark-accent hover:border-transparent duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
             Login
           </button>
         </SignInButton>
+
+        <SignUpButton mode="modal"
+          appearance={{
+            baseTheme: dark,
+            variables: {
+              colorBackground: '#1e1e1e',
+              colorInputBackground: '#2d2d2d',
+              colorText: '#ffffff'
+            }
+          }}>
+          <button className=" text-white bg-emerald-600 hover:bg-emerald-600/90 duration-150 py-2 px-4 ml-1 rounded-md flex row">
+            Sign Up
+          </button>
+        </SignUpButton>
+
       </SignedOut>
       <SignedIn>
         <UserButton />
