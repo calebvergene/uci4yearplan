@@ -40,24 +40,31 @@ export const CustomCommandInput = forwardRef<HTMLInputElement, CommandInputProps
     ({ className, value, onValueChange, tag, setTag, setMinSearchCars, ...props }, ref) => {
 
         const onXClick = () => {
-            setTag("") 
-            setMinSearchCars(2)
+            setTag("")
+            setMinSearchCars(1)
         }
 
         return (
-            <div className={`flex items-center px-3 pb-4 ${value.length > 1 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
+            <div className={`flex items-center px-3 pb-4 ${value.length > 0 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
                 <SearchIcon className="w-5 h-5 opacity-50 shrink-0 mr-2" />
 
                 <div className="flex-1 flex items-center">
                     {tag && (
-                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-1 flex row items-center mr-2'>
-                            {tag}<X size={12} className='ml-0.5' onClick={onXClick} />
+                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-1 flex row items-center mr-2 rounded-md'>
+                            {tag}<X size={12} className='ml-1' onClick={onXClick} />
                         </div>
                     )}
                     <input
                         ref={ref}
                         value={value}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => onValueChange(e.target.value)}
+                        onChange={(e) => onValueChange(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Backspace' && value === '' && tag) {
+                                e.preventDefault();
+                                setTag("");
+                                setMinSearchCars(1)
+                            }
+                        }}
                         className={cn(
                             "flex-1 bg-transparent text-sm outline-none placeholder:text-neutral-400 disabled:cursor-not-allowed disabled:opacity-50",
                             className

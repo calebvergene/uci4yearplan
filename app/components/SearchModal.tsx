@@ -28,7 +28,7 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
   const [filteredDepartments, setFilteredDepartments] = useState<DepartmentSearchResult[]>(departments.slice(0, MAX_DISPLAY_ITEMS));
   const [filteredCourses, setFilteredCourses] = useState<CourseSearchResult[]>(courses.slice(0, MAX_DISPLAY_ITEMS));
   const [tag, setTag] = useState<string>('');
-  const [minSearchChars, setMinSearchCars] = useState<number>(2)
+  const [minSearchChars, setMinSearchCars] = useState<number>(1)
 
 
   const handleSearchChange = (value: string) => {
@@ -98,7 +98,7 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
         {(() => {
           if (filteredDepartments.length === 0 && filteredCourses.length === 0) {
             return <CustomCommandEmpty>No results found.</CustomCommandEmpty>;
-          } else if (searchQuery.length < minSearchChars) {
+          } else if (searchQuery.length < minSearchChars && tag === "") {
             return;
           } else {
             return (
