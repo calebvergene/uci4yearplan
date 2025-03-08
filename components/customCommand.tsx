@@ -89,6 +89,21 @@ export const CustomCommandEmpty = forwardRef<HTMLDivElement, CommandEmptyProps>(
 );
 CustomCommandEmpty.displayName = "CustomCommandEmpty";
 
+interface CommandStartProps extends HTMLAttributes<HTMLDivElement> { }
+
+export const CustomCommandStart = forwardRef<HTMLDivElement, CommandStartProps>(
+    ({ className, ...props }, ref) => {
+        return (
+            <div
+                ref={ref}
+                className={cn("py-6 text-center text-sm", className)}
+                {...props}
+            />
+        );
+    }
+);
+CustomCommandStart.displayName = "CustomCommandStart";
+
 interface CommandGroupProps extends HTMLAttributes<HTMLDivElement> {
     heading: string;
     children?: ReactNode;

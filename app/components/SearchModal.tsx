@@ -79,52 +79,60 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
         onValueChange={handleSearchChange}
       />
       <CustomCommandList>
-        {filteredDepartments.length === 0 && filteredCourses.length === 0 ? (
-          <CustomCommandEmpty>No results found.</CustomCommandEmpty>
-        ) : (
-          <>
-            {filteredDepartments.length > 0 && (
-              <div>
-                <CustomCommandGroup heading="Departments">
-                  {filteredDepartments.map(department => (
-                    <div key={department.id} className="item">
-                      <CustomCommandItem>
-                        <span className="text-xl mr-1">📂</span>
-                        {department.id}: {department.name}
-                      </CustomCommandItem>
-                    </div>
-                  ))}
-                </CustomCommandGroup>
-              </div>
-            )}
-            {filteredDepartments.length > 0 && filteredCourses.length > 0 && (
-              <CustomCommandSeparator />
-            )}
-
-            {filteredCourses.length > 0 && (
+        {(() => {
+          if (filteredDepartments.length === 0 && filteredCourses.length === 0) {
+            return <CustomCommandEmpty>No results found.</CustomCommandEmpty>;
+          } else if (searchQuery.length < 2) {
+            return (
+              <CustomCommandEmpty>No results found.</CustomCommandEmpty>
+            );
+          } else {
+            return (
               <>
-                <CustomCommandGroup heading="Courses">
-                  {filteredCourses.map(course => (
-                    <div key={course.id} className="item">
-                      <CourseDropdown
-                        courseName={course.id}
-                        formattedCourseName={course.id}
-                        addCourse={addCourse}
-                        removeCourse={removeCourse}
-                        customTrigger={
-                        <CustomCommandItem>
-                          <span className="text-xl mr-1">📚</span>
-                          {course.id}: {course.name}
-                        </CustomCommandItem>
-                        }
-                      />
-                    </div>
-                  ))}
-                </CustomCommandGroup>
+                {filteredDepartments.length > 0 && (
+                  <div>
+                    <CustomCommandGroup heading="Departments">
+                      {filteredDepartments.map(department => (
+                        <div key={department.id} className="item">
+                          <CustomCommandItem>
+                            <span className="text-xl mr-1">📂</span>
+                            {department.id}: {department.name}
+                          </CustomCommandItem>
+                        </div>
+                      ))}
+                    </CustomCommandGroup>
+                  </div>
+                )}
+                {filteredDepartments.length > 0 && filteredCourses.length > 0 && (
+                  <CustomCommandSeparator />
+                )}
+
+                {filteredCourses.length > 0 && (
+                  <>
+                    <CustomCommandGroup heading="Courses">
+                      {filteredCourses.map(course => (
+                        <div key={course.id} className="item">
+                          <CourseDropdown
+                            courseName={course.id}
+                            formattedCourseName={course.id}
+                            addCourse={addCourse}
+                            removeCourse={removeCourse}
+                            customTrigger={
+                              <CustomCommandItem>
+                                <span className="text-xl mr-1">📚</span>
+                                {course.id}: {course.name}
+                              </CustomCommandItem>
+                            }
+                          />
+                        </div>
+                      ))}
+                    </CustomCommandGroup>
+                  </>
+                )}
               </>
-            )}
-          </>
-        )}
+            );
+          }
+        })()}
       </CustomCommandList>
     </CustomCommandDialog>
   );
