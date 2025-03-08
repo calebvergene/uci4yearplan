@@ -36,9 +36,9 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
     setSearchNoSpaceQuery(value.replace(/\s+/g, ""));
   };
 
-  // Basic search function
+  // search function
   const getFilteredResults = () => {
-    // If search query is empty or too short, return all departments
+    // if search query is empty or too short, return all departments
     if (!searchNoSpaceQuery || searchNoSpaceQuery.length < minSearchChars) {
       return {
         filteredDepartments: departments.slice(0, MAX_DISPLAY_ITEMS),
@@ -59,13 +59,34 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
         .slice(0, MAX_DISPLAY_ITEMS);
     }
 
-    // Filter courses - match on ID or name containing the query
-    const filteredCourses = courses
+    let filteredCourses = courses
       .filter(course => {
         const courseId = course.id.toLowerCase();
         return courseId.includes(tag.toLowerCase()) && courseId.includes(query.toLowerCase());
       })
       .slice(0, MAX_DISPLAY_ITEMS);
+
+    // If not enough results, add more using the flexible matching
+    if (filteredCourses.length < 10) {
+      const additionalCourses = courses
+        .filter(course => {
+          // Skip courses already in our filtered list
+          if (filteredCourses.some(fc => fc.id === course.id)) {
+            return false;
+          }
+
+          const courseId = course.id.toLowerCase();
+          const tagMatches = tag.length === 0 || courseId.includes(tag.toLowerCase());
+
+          const queryTerms = query.toLowerCase().split('').filter(term => term.trim().length > 0);
+          const queryMatches = queryTerms.every(term => courseId.includes(term));
+
+          return tagMatches && queryMatches;
+        })
+        .slice(0, MAX_DISPLAY_ITEMS - filteredCourses.length);
+
+      filteredCourses = [...filteredCourses, ...additionalCourses];
+    }
 
     return { filteredDepartments, filteredCourses };
   };
@@ -92,7 +113,7 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
         onValueChange={handleSearchChange}
         tag={tag}
         setTag={setTag}
-        setMinSearchCars = {setMinSearchCars}
+        setMinSearchCars={setMinSearchCars}
       />
       <CustomCommandList>
         {(() => {
