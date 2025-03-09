@@ -151,13 +151,13 @@ export default function Root( { loadedPlanner, userId }: Props ) {
       <Toolbar addCourse={addCourse} removeCourse={removeCourse} />
       <ResizablePanelGroup direction="horizontal" className='min-w-[450px]'>
 
-        <ResizablePanel defaultSize={60}>
+        <ResizablePanel defaultSize={70}>
           <CoursePlanner years={years} addCourse={addCourse} removeCourse={removeCourse}/>
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel defaultSize={40} minSize={27}><Sidebar addCourse={addCourse} removeCourse={removeCourse}/></ResizablePanel>
+        <ResizablePanel defaultSize={30} minSize={25}><Sidebar addCourse={addCourse} removeCourse={removeCourse}/></ResizablePanel>
       </ResizablePanelGroup>
     </div>
 

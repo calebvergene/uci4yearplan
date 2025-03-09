@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { SignedOut, SignedIn, SignUpButton, SignInButton, UserButton, useAuth } from '@clerk/nextjs';
-import { Download } from 'lucide-react';
 import { dark } from '@clerk/themes';
 
 const AuthButtons = () => {
@@ -21,7 +20,7 @@ const AuthButtons = () => {
   if (!isLoaded || showPlaceholder) {
     return (
       <div className='flex flex-row gap-x-1 text-sm'>
-        <button className="border border-dark-highlight bg-dark-secondary hover:bg-dark-accent hover:border-transparent duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
+        <button className="bg-dark-accent hover:bg-dark-highlight duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
           Login
         </button>
         <button className=" text-white bg-emerald-600 hover:bg-emerald-600/90 duration-150 py-2 px-4 ml-1 rounded-md flex row">
@@ -44,7 +43,7 @@ const AuthButtons = () => {
               colorText: '#ffffff'
             }
           }}>
-          <button className="border border-dark-highlight bg-dark-secondary hover:bg-dark-accent hover:border-transparent duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
+          <button className="bg-dark-accent hover:bg-dark-highlight duration-150 text-white py-2 px-6 mr-2 rounded-md flex row font-medium">
             Login
           </button>
         </SignInButton>

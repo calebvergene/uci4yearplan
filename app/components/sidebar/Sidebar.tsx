@@ -54,14 +54,14 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
         )}
       </TabsContent>
       <TabsContent value="Minor">
-        <div className='mt-4 w-full flex justify-center'>
-          <h1>Minors Feature Coming Soon...</h1>
+        <div className='mt-4 w-full flex justify-center text-lg'>
+          <h1>New Features Coming Soon...</h1>
         </div>
       </TabsContent>
 
       <TabsContent value="GEs">
-        <div className='mt-4 w-full flex justify-center'>
-          <h1>GEs Feature Coming Soon...</h1>
+        <div className='mt-4 w-full flex justify-center text-lg'>
+          <h1>New Features Coming Soon...</h1>
         </div>
       </TabsContent>
     </Tabs>
