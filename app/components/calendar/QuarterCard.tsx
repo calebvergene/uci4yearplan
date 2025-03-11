@@ -1,7 +1,9 @@
+"use client";
 import React from 'react'
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Quarter, Year } from "../../types/index";
 import CourseButton from '../sidebar/coursebutton/CourseButton';
+import SearchModal from '../SearchModal';
 
 interface Props {
   year: Year;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const QuarterCard = ({ year, quarter, addCourse, removeCourse }: Props) => {
+  const [open, setOpen] = React.useState(false)
 
   return (
     <div className='w-full'>
@@ -18,9 +21,10 @@ const QuarterCard = ({ year, quarter, addCourse, removeCourse }: Props) => {
         <CardTitle className='font-medium py-1 mb-5 pl-4 mx-1 text-sm border-b border-dark-highlight flex row justify-between'>
           <div className='py-1'>{quarter.id}</div>
           <div className='flex row'>
-            <button className='hover:bg-dark-highlight duration-100 rounded-md px-2 p-1'>
+            <button className='hover:bg-dark-highlight duration-100 rounded-md px-2 p-1' onClick={() => setOpen(true)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
             </button>
+            <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
           </div>
         </CardTitle>
         <div className='justify-center items-center'>
