@@ -124,7 +124,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
                 onClick={() => toggleSection(index)}
                 className="flex justify-between items-center w-full text-left rounded-md p-3 transition-colors duration-150 px-4"
               >
-                <h3 className="font-semibold text-lg">{requirement.label}</h3>
+                <h3 className="font-semibold text-md">{requirement.label}</h3>
                 <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${!isOpen ? 'transform -rotate-90' : ''}`} />
               </button>
 
