@@ -93,15 +93,6 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
           </h3>
         )}
 
-        {requirement.courses.length === 1 && (
-          <h3 className="font-medium text-sm text-gray-300">
-            <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-              1
-            </span>
-            Required:
-          </h3>
-        )}
-
         <div className="flex flex-row gap-x-2 flex-wrap mt-2">
           {requirement.courses.map((course: string, idx: number) => (
             <div key={idx} className="py-1">
@@ -142,10 +133,9 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
                       {requirement.requirements.map((childReq: any, childIdx: number) => (
                         <div key={childIdx} className='ml-4 py-2'>
                           <div className="transition-all duration-200 hover:bg-neutral-700/20 rounded-md overflow-hidden">
-                          {childReq.courses.length > 1 && (
                             <h3 className={`font-semibold text-lg pl-3 text-neutral-100 py-2`}>
                               {childReq.label}
-                            </h3> )}
+                            </h3>
                             {renderCourseButtons(childReq)}
                           </div>
                         </div>
@@ -160,23 +150,21 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
         
         // Course requirements (including multi-option ones)
         else if (requirement.requirementType === 'Course') {
-          const isOpen = openSections[index] ?? true; // Default to open for individual courses
+          const isOpen = openSections[index] ?? false; // Default to open for individual courses
           
           return (
             <div key={index} className='py-2'>
-              {!isMatch && (
-                <div>
-                  <button 
-                    onClick={() => toggleSection(index)}
-                    className="flex justify-between items-center w-full text-left hover:bg-neutral-700/20 rounded-md p-2 transition-colors duration-150"
-                  >
-                    <h3 className="font-semibold text-2xl">{requirement.label}</h3>
-                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
-                  </button>
-                  
-                  {isOpen && renderCourseButtons(requirement)}
-                </div>
-              )}
+              <div>
+                <button 
+                  onClick={() => toggleSection(index)}
+                  className="flex justify-between items-center w-full text-left hover:bg-neutral-700/20 rounded-md p-2 transition-colors duration-150"
+                >
+                  <h3 className="font-semibold text-2xl">{requirement.label}</h3>
+                  <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+                </button>
+                
+                {isOpen && renderCourseButtons(requirement)}
+              </div>
             </div>
           );
         }
