@@ -9,8 +9,6 @@ interface Props {
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
 }
 
-// Create a modified version of ClassSelectionChunk that's directly embedded
-// to prevent the double nesting issue
 const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
   // Initialize all sections to be closed by default
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
@@ -24,81 +22,90 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
 
   // Process requirements to group consecutive single-course requirements
   const processedRequirements: any[] = [];
-  
+
   let currentGroup: any = null;
   let groupCount = 0;
-  
+
   // Process each requirement
   Requirements.forEach((requirement, index) => {
     // Check if this is a single-course requirement
-    const isSingleCourse = requirement.requirementType === 'Course' && 
-                           requirement.courses && 
-                           requirement.courses.length === 1;
-    
+    const isSingleCourse = requirement.requirementType === 'Course' &&
+      requirement.courses &&
+      requirement.courses.length === 1;
+
     if (requirement.requirementType === 'Group') {
       // If we have an active group, add it to processed requirements
       if (currentGroup && currentGroup.requirements.length > 0) {
         processedRequirements.push(currentGroup);
         currentGroup = null;
       }
-      
+
       // Add the group requirement as is
       processedRequirements.push(requirement);
-    } 
+    }
     else if (isSingleCourse) {
       // Create a new group if needed
       if (!currentGroup) {
         groupCount++;
         currentGroup = {
-          label: `Required Courses Group ${groupCount}`,
+          label: `Complete all of the following`,
           requirementType: "Group",
           requirementCount: 0,
           requirements: []
         };
       }
-      
+
       // Add the requirement to the current group
       currentGroup.requirements.push(requirement);
       currentGroup.requirementCount++;
-    } 
+    }
     else {
       // For any other type of requirement, add any current group first
       if (currentGroup && currentGroup.requirements.length > 0) {
         processedRequirements.push(currentGroup);
         currentGroup = null;
       }
-      
+
       // Add the requirement as is (including multi-option courses)
       processedRequirements.push(requirement);
     }
   });
-  
+
   // Don't forget to add the last group if it exists
   if (currentGroup && currentGroup.requirements.length > 0) {
     processedRequirements.push(currentGroup);
   }
 
-  // Helper function to render a direct course button view
+  // Helper function to render a consistent course button view
   const renderCourseButtons = (requirement: any) => {
     if (!requirement.courses || requirement.courses.length === 0) return null;
-    
-    return (
-      <div className="ml-2 border-l-2 border-neutral-600 pl-3 py-1 m-2">
-        {requirement.courses.length > 1 && (
-          <h3 className="font-medium text-sm text-gray-300">
-            <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-              {requirement.courses.length}
-            </span>
-            Choose from the following options:
-          </h3>
-        )}
 
-        <div className="flex flex-row gap-x-2 flex-wrap mt-2">
-          {requirement.courses.map((course: string, idx: number) => (
-            <div key={idx} className="py-1">
-              <CourseButton course={course} addCourse={addCourse} removeCourse={removeCourse} />
-            </div>
-          ))}
+    return (
+      <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 ml-3'>
+        <div className=" border-l-2 border-neutral-600 pl-3 pt-1 m-2 mb-3 ml-3">
+          {requirement.courses.length > 1 ? (
+            <h3 className="font-medium text-sm text-gray-300">
+              <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
+                {requirement.courses.length}
+              </span>
+              Choose from the following options:
+            </h3>
+          ) : (
+            <h3 className="font-medium text-sm text-gray-300">
+              <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
+                1
+              </span>
+              Required:
+            </h3>
+          )}
+
+          <div className="flex flex-row gap-x-2 flex-wrap mt-2 ">
+            {requirement.courses.map((course: string, idx: number) => (
+              <div key={idx} className="py-1">
+                <CourseButton course={course} addCourse={addCourse} removeCourse={removeCourse} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -107,81 +114,46 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
   return (
     <div className="h-[79vh] overflow-y-auto ml-2">
       {processedRequirements.map((requirement: any, index) => {
-        const normalizedLabel = requirement.label.toUpperCase().replace(/\s+/g, '');
-        const isMatch = requirement.courses && requirement.courses.some((course: string) =>
-          normalizedLabel === course
-        );
+        const isOpen = openSections[index] ?? false;
 
-        // Group requirements
-        if (requirement.requirementType === 'Group') {
-          const isOpen = openSections[index] ?? false;
-          
-          return (
-            <div key={index} className='py-2'>
-              {!isMatch && (
-                <div>
-                  <button 
-                    onClick={() => toggleSection(index)}
-                    className="flex justify-between items-center w-full text-left hover:bg-neutral-700/20 rounded-md p-2 transition-colors duration-150"
-                  >
-                    <h3 className="font-semibold text-2xl">{requirement.label}</h3>
-                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
-                  </button>
-                  
-                  {isOpen && (
-                    <div className='bg-dark-secondary rounded-lg mt-1 overflow-hidden transition-all duration-200'>
-                      {requirement.requirements.map((childReq: any, childIdx: number) => (
-                        <div key={childIdx} className='ml-4 py-2'>
-                          <div className="transition-all duration-200 hover:bg-neutral-700/20 rounded-md overflow-hidden">
-                            <h3 className={`font-semibold text-lg pl-3 text-neutral-100 py-2`}>
+        // For all requirements, use a consistent container style
+        return (
+          <div key={index} className="py-2">
+            <div className="border-[2px] border-dark-accent rounded-md">
+              {/* All requirement types get the same header styling */}
+              <button
+                onClick={() => toggleSection(index)}
+                className="flex justify-between items-center w-full text-left rounded-md p-3 transition-colors duration-150 px-4"
+              >
+                <h3 className="font-semibold text-xl">{requirement.label}</h3>
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+              </button>
+
+              {isOpen && (
+                <div className="rounded-lg overflow-hidden transition-all duration-200 pb-3">
+                  {/* For group requirements, render child requirements */}
+                  {requirement.requirementType === 'Group' ? (
+                    requirement.requirements.map((childReq: any, childIdx: number) => (
+                      <div key={childIdx} className="">
+                        <div className="transition-all duration-200 rounded-md overflow-hidden pl-1">
+                          {childReq.courses.length > 1 && (
+                            <h3 className="font-semibold text-md pl-5 text-neutral-100 py-1">
                               {childReq.label}
                             </h3>
-                            {renderCourseButtons(childReq)}
-                          </div>
+                          )}
+                          {renderCourseButtons(childReq)}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))
+                  ) : (
+                    // For non-group requirements, directly render course buttons
+                    renderCourseButtons(requirement)
                   )}
                 </div>
               )}
             </div>
-          );
-        }
-        
-        // Course requirements (including multi-option ones)
-        else if (requirement.requirementType === 'Course') {
-          const isOpen = openSections[index] ?? false; // Default to open for individual courses
-          
-          return (
-            <div key={index} className='py-2'>
-              <div>
-                <button 
-                  onClick={() => toggleSection(index)}
-                  className="flex justify-between items-center w-full text-left hover:bg-neutral-700/20 rounded-md p-2 transition-colors duration-150"
-                >
-                  <h3 className="font-semibold text-2xl">{requirement.label}</h3>
-                  <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
-                </button>
-                
-                {isOpen && renderCourseButtons(requirement)}
-              </div>
-            </div>
-          );
-        }
-        
-        // Any other type of requirement
-        else {
-          return (
-            <div key={index} className='py-2'>
-              <div className="transition-all duration-200 hover:bg-neutral-700/20 rounded-md overflow-hidden">
-                <h3 className={`font-semibold text-lg pl-3 text-neutral-100 py-2`}>
-                  {requirement.label}
-                </h3>
-                {renderCourseButtons(requirement)}
-              </div>
-            </div>
-          );
-        }
+          </div>
+        );
       })}
     </div>
   );
