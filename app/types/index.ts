@@ -10,6 +10,7 @@ export interface Requirement {
   requirementType: string;
   courseCount: number;
   courses: string[];
+  requirements?: Requirement[];
 }
 
 export interface GroupRequirement {

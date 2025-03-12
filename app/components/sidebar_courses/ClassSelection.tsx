@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Requirement, GroupRequirement } from "../../types"
+import { GroupRequirement, Requirement } from "../../types"
 import CourseButton from '../sidebar/coursebutton/CourseButton';
 import { ChevronDown } from 'lucide-react';
 
@@ -21,13 +21,13 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
   };
 
   // Process requirements to group consecutive single-course requirements
-  const processedRequirements: any[] = [];
+  const processedRequirements: Requirement[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let currentGroup: any = null;
-  let groupCount = 0;
 
   // Process each requirement
-  Requirements.forEach((requirement, index) => {
+  Requirements.forEach((requirement) => {
     // Check if this is a single-course requirement
     const isSingleCourse = requirement.requirementType === 'Course' &&
       requirement.courses &&
@@ -46,7 +46,6 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
     else if (isSingleCourse) {
       // Create a new group if needed
       if (!currentGroup) {
-        groupCount++;
         currentGroup = {
           label: `Complete all of the following`,
           requirementType: "Group",
@@ -77,11 +76,11 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
   }
 
   // Helper function to render a consistent course button view
-  const renderCourseButtons = (requirement: any) => {
+  const renderCourseButtons = (requirement: Requirement) => {
     if (!requirement.courses || requirement.courses.length === 0) return null;
 
     return (
-      <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 ml-3'>
+      <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 ml-4'>
         <div className=" border-l-2 border-neutral-600 pl-3 pt-1 m-2 mb-3 ml-3">
           {requirement.courses.length > 1 ? (
             <h3 className="font-medium text-sm text-gray-300">
@@ -113,7 +112,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
 
   return (
     <div className="h-[79vh] overflow-y-auto ml-2">
-      {processedRequirements.map((requirement: any, index) => {
+      {processedRequirements.map((requirement: Requirement, index) => {
         const isOpen = openSections[index] ?? false;
 
         // For all requirements, use a consistent container style
@@ -126,18 +125,18 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
                 className="flex justify-between items-center w-full text-left rounded-md p-3 transition-colors duration-150 px-4"
               >
                 <h3 className="font-semibold text-xl">{requirement.label}</h3>
-                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${!isOpen ? 'transform -rotate-90' : ''}`} />
               </button>
 
               {isOpen && (
                 <div className="rounded-lg overflow-hidden transition-all duration-200 pb-3">
                   {/* For group requirements, render child requirements */}
-                  {requirement.requirementType === 'Group' ? (
-                    requirement.requirements.map((childReq: any, childIdx: number) => (
+                  {requirement.requirementType === 'Group' && requirement.requirements ? (
+                    requirement.requirements.map((childReq: Requirement, childIdx: number) => (
                       <div key={childIdx} className="">
-                        <div className="transition-all duration-200 rounded-md overflow-hidden pl-1">
+                        <div className="transition-all duration-200 rounded-md overflow-hidden">
                           {childReq.courses.length > 1 && (
-                            <h3 className="font-semibold text-md pl-5 text-neutral-100 py-1">
+                            <h3 className="font-semibold text-md pl-5 text-neutral-100 py-1 ml-1">
                               {childReq.label}
                             </h3>
                           )}

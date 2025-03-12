@@ -44,7 +44,7 @@ export default function MajorSelect({ majors, handleMajorChange }: Props) {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild className="mx-2">
+      <PopoverTrigger asChild className="mx-4 mt-2">
         <Button
           variant="outline"
           role="combobox"
