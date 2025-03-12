@@ -118,13 +118,13 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
         // For all requirements, use a consistent container style
         return (
           <div key={index} className="py-2">
-            <div className="border-[2px] border-dark-accent rounded-md">
+            <div className="border-[1px] border-dark-highlight rounded-md bg-dark-secondary">
               {/* All requirement types get the same header styling */}
               <button
                 onClick={() => toggleSection(index)}
                 className="flex justify-between items-center w-full text-left rounded-md p-3 transition-colors duration-150 px-4"
               >
-                <h3 className="font-semibold text-xl">{requirement.label}</h3>
+                <h3 className="font-semibold text-lg">{requirement.label}</h3>
                 <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${!isOpen ? 'transform -rotate-90' : ''}`} />
               </button>
 
