@@ -47,7 +47,7 @@ const ClassSelectionChunk = ({
               onClick={toggleOpen}
               className="flex justify-between items-center w-full text-left pl-2 pr-2 hover:bg-neutral-700/10 rounded-md transition-colors duration-150"
             >
-              <h3 className="font-semibold text-xl pt-2 pb-2">{groupReq.label}</h3>
+              <h3 className="font-medium text-xl pt-2 pb-2">{groupReq.label}</h3>
               <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
             </button>
             
