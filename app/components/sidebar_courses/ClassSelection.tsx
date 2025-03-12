@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { GroupRequirement, Requirement } from "../../types"
+import { Requirement } from "../../types"
 import CourseButton from '../sidebar/coursebutton/CourseButton';
 import { ChevronDown } from 'lucide-react';
 
