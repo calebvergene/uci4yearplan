@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/data-generator.js",
+    "prebuild": "node scripts/course-generator.js && node scripts/ge-data-generator.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

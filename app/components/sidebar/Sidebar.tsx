@@ -5,6 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './major/MajorSection'
 import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
 import { Skeleton } from '@/components/ui/skeleton';
+import ClassSelection from '../sidebar_courses/ClassSelection';
+import { geReqsData } from '@/scripts/generated/geData';
+import GERequirementsDropdown from '../sidebar_courses/GeSection';
 
 
 interface Props {
@@ -61,7 +64,7 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
 
       <TabsContent value="GEs">
         <div className='mt-4 w-full flex justify-center text-lg'>
-          <h1>New Features Coming Soon...</h1>
+          <GERequirementsDropdown addCourse={addCourse} removeCourse={removeCourse} />
         </div>
       </TabsContent>
     </Tabs>

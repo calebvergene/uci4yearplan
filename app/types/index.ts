@@ -20,6 +20,13 @@ export interface GroupRequirement {
   requirements: Requirement[];
 }
 
+export interface GroupGroupRequirement {
+  label: string;
+  requirementType: string;
+  requirementCount: number;
+  requirements: (GroupRequirement | Requirement)[];
+}
+
 export interface MajorData {
     id: string;
     name: string;
@@ -30,7 +37,6 @@ export interface ApiResponse {
     ok: boolean;
     data: MajorData;
 }
-
   
 export interface Quarter {
     id: string;

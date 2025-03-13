@@ -49,7 +49,7 @@ export default function MajorSelect({ majors, handleMajorChange }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between !bg-dark-secondary !border-transparent hover:!bg-dark-accent "
+          className="w-full justify-between  !border-transparent !bg-dark-secondary hover:!bg-dark-accent !text-white"
         >
 
           {selectedMajor ? selectedMajor.name.includes('in') ? selectedMajor.name.split(/in\s+/)[1] :

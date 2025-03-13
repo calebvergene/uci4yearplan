@@ -1,4 +1,3 @@
-// src/data-generator.js
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -26,7 +25,6 @@ function makeRequest(url) {
   });
 }
 
-// Main function to fetch and process data
 async function generateData() {
   console.log('Fetching course data from API...');
   

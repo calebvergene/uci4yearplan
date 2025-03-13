@@ -80,7 +80,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
     if (!requirement.courses || requirement.courses.length === 0) return null;
 
     return (
-      <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 ml-4'>
+      <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 mx-4'>
         <div className=" border-l-2 border-neutral-600 pl-3 pt-1 m-2 mb-3 ml-3">
           {requirement.courses.length > 1 ? (
             <h3 className="font-medium text-sm text-gray-300">
@@ -136,7 +136,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
                       <div key={childIdx} className="">
                         <div className="transition-all duration-200 rounded-md overflow-hidden">
                           {childReq.courses.length > 1 && (
-                            <h3 className="font-semibold text-md pl-5 text-neutral-100 py-1 ml-1">
+                            <h3 className="font-medium text-md pl-5 text-neutral-100 py-1 ml-1">
                               {childReq.label}
                             </h3>
                           )}
