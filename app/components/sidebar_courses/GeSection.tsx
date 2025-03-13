@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { geReqsData } from '../../../scripts/generated/geData'; // Import your GE requirements data
-import CourseButton from '../sidebar/coursebutton/CourseButton'; // Assuming this component exists
+import { geReqsData } from '../../../scripts/generated/geData';
+import CourseButton from '../sidebar/coursebutton/CourseButton';
 
-// Define types based on your data structure
+// custom types for ges because they are all weird and nested
 interface Requirement {
   label: string;
   requirementType: string;
@@ -26,7 +26,6 @@ interface Props {
 }
 
 const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) => {
-  // Initialize all sections to be closed by default
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [openSubsections, setOpenSubsections] = useState<Record<string, boolean>>({});
 
@@ -45,7 +44,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
     }));
   };
 
-  // Helper function to render course buttons
+  // helper function to render course buttons
   const renderCourseButtons = (requirement: Requirement) => {
     if (!requirement.courses || requirement.courses.length === 0) return null;
 
@@ -62,7 +61,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
           ) : (
             <h3 className="font-medium text-sm text-gray-300">
               <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-                1
+                {requirement.courseCount}
               </span>
               Required:
             </h3>
@@ -80,33 +79,28 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
     );
   };
 
-  // Render nested requirements recursively
+  // render nested requirements recursively
   const renderNestedRequirements = (requirements: Requirement[], parentIndex: number) => {
     return requirements.map((childReq: Requirement, childIdx: number) => {
       const key = `${parentIndex}-${childIdx}`;
       const isSubsectionOpen = openSubsections[key] ?? false;
 
-      // For Group type requirements, render expandable subsection
+      // for Group type requirements, render expandable subsection
       if (childReq.requirementType === 'Group' && childReq.requirements) {
         return (
-          <div key={childIdx} className="ml-4 mt-2">
+          <div key={childIdx} className="mx-4 border-[1px] border-dark-highlight bg-dark-accent/40 rounded-md mb-2">
             <button
               onClick={() => toggleSubsection(parentIndex, childIdx)}
               className="flex justify-between items-center w-full text-left rounded-md p-2 transition-colors duration-150 bg-dark-tertiary/40"
             >
-              <h3 className="font-medium text-md">
-                {childReq.requirementCount && childReq.requirementType === 'Group' && (
-                  <span className="inline-block bg-blue-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-                    {childReq.requirementCount}
-                  </span>
-                )}
+              <h3 className="font-semibold text-sm items-center px-2">
                 {childReq.label}
               </h3>
               <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${!isSubsectionOpen ? 'transform -rotate-90' : ''}`} />
             </button>
 
             {isSubsectionOpen && (
-              <div className="pl-2 pt-2">
+              <div className="pl-2 mb-4">
                 {childReq.requirements && renderNestedRequirements(childReq.requirements, childIdx)}
                 {!childReq.requirements && renderCourseButtons(childReq)}
               </div>
@@ -118,7 +112,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
         return (
           <div key={childIdx} className="mt-1">
             {childReq.label && childReq.courses && childReq.courses.length > 0 && (
-              <h4 className="font-medium text-sm pl-6 text-neutral-100 py-1">{childReq.label}</h4>
+              <h4 className="font-medium text-sm pl-6 text-neutral-100 pt-1">{childReq.label}</h4>
             )}
             {renderCourseButtons(childReq)}
           </div>
@@ -128,28 +122,28 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
   };
 
   return (
-    <div className="h-[79vh] overflow-y-auto ml-2">
+    <div className="h-[79vh] overflow-y-auto mx-4 w-full">
       {geReqsData.map((category: GroupGroupRequirement, index: number) => {
         const isOpen = openSections[index] ?? false;
 
         return (
-          <div key={index} className="py-2">
-            <div className="border-[1px] border-dark-highlight rounded-md bg-dark-secondary">
+            <div key={index} className="py-2">
+            <div className="border border-dark-highlight rounded-md bg-dark-secondary">
               <button
                 onClick={() => toggleSection(index)}
-                className="flex justify-between items-center w-full text-left rounded-md p-3 transition-colors duration-150 px-4"
+                className="flex justify-between items-center w-full text-left rounded-md p-4 transition-colors duration-150"
               >
-                <h3 className="font-semibold text-md">
+                <div className="flex flex-row flex-nowrap items-center min-w-0">
                   {category.requirementCount > 0 && (
-                    <span className="inline-block bg-indigo-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-                      {category.requirementCount}
+                    <span className="inline-flex items-center bg-emerald-600 text-white px-2.5 py-1 rounded-full mr-3 text-xs font-medium whitespace-nowrap flex-shrink-0">
+                      Choose {category.requirementCount}
                     </span>
                   )}
-                  {category.label}
-                </h3>
-                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${!isOpen ? 'transform -rotate-90' : ''}`} />
+                  <h3 className="font-semibold text-md truncate">{category.label}</h3>
+                </div>
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ml-2 flex-shrink-0 ${!isOpen ? 'transform -rotate-90' : ''}`} />
               </button>
-
+          
               {isOpen && (
                 <div className="rounded-lg overflow-hidden transition-all duration-200 pb-3">
                   {category.requirements && renderNestedRequirements(category.requirements, index)}
