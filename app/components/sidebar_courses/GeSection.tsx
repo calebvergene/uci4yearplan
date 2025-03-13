@@ -70,7 +70,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
 
           <div className="flex flex-row gap-x-2 flex-wrap mt-2">
             {requirement.courses.map((course: string, idx: number) => (
-              <div key={idx} className="py-1">
+              <div key={idx} className="py-1 text-base">
                 <CourseButton course={course} addCourse={addCourse} removeCourse={removeCourse} />
               </div>
             ))}

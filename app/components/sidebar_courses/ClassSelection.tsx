@@ -10,8 +10,8 @@ interface Props {
 }
 
 const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
-  // Initialize all sections to be closed by default
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+  // initialize all sections to be closed by default, but the first one is open
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({0: true});
 
   const toggleSection = (index: number) => {
     setOpenSections(prev => ({
@@ -85,7 +85,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
           {requirement.courses.length > 1 ? (
             <h3 className="font-medium text-sm text-gray-300">
               <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-                {requirement.courses.length}
+                {requirement.courseCount}
               </span>
               Choose from the following options:
             </h3>
