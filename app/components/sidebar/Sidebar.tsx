@@ -5,8 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './major/MajorSection'
 import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
 import { Skeleton } from '@/components/ui/skeleton';
-import ClassSelection from '../sidebar_courses/ClassSelection';
-import { geReqsData } from '@/scripts/generated/geData';
 import GERequirementsDropdown from '../sidebar_courses/GeSection';
 
 
