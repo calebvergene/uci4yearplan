@@ -81,11 +81,11 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
 
     return (
       <div className='duration-200 hover:bg-neutral-700/20 rounded-md py-1 mx-4'>
-        <div className=" border-l-2 border-neutral-600 pl-3 pt-1 m-2 mb-3 ml-3">
+        <div className={`${requirement.courses.length < 7 ? 'border-l-2 border-neutral-600' : ''} pl-3 pt-1 m-2 mb-3 ml-3`}>
           {requirement.courses.length > 1 ? (
             <h3 className="font-medium text-sm text-gray-300">
               <span className="inline-block bg-emerald-600 text-white px-2 py-0.5 rounded-full mr-2 text-xs">
-                {requirement.courseCount}
+                {requirement.courseCount || "?"}
               </span>
               Choose from the following options:
             </h3>

@@ -53,16 +53,22 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
 
     if (tag === "" && query.length > 0) {
       filteredDepartments = departments
-        .filter(dept =>
-          dept.id.toLowerCase().includes(query)
-        )
+        .filter(dept => {
+          // Convert department ID to lowercase and remove all spaces
+          const deptIdNoSpaces = dept.id.toLowerCase().replace(/\s+/g, '');
+          return deptIdNoSpaces.includes(query);
+        })
         .slice(0, MAX_DISPLAY_ITEMS);
     }
 
     let filteredCourses = courses
       .filter(course => {
-        const courseId = course.id.toLowerCase();
-        return courseId.includes(tag.toLowerCase()) && courseId.includes(query.toLowerCase());
+        // Convert course ID to lowercase and remove all spaces
+        const courseIdNoSpaces = course.id.toLowerCase().replace(/\s+/g, '');
+        // Convert tag to lowercase and remove all spaces
+        const tagNoSpaces = tag.toLowerCase().replace(/\s+/g, '');
+        
+        return courseIdNoSpaces.includes(tagNoSpaces) && courseIdNoSpaces.includes(query);
       })
       .slice(0, MAX_DISPLAY_ITEMS);
 
@@ -75,11 +81,16 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
             return false;
           }
 
-          const courseId = course.id.toLowerCase();
-          const tagMatches = tag.length === 0 || courseId.includes(tag.toLowerCase());
+          // Convert course ID to lowercase and remove all spaces
+          const courseIdNoSpaces = course.id.toLowerCase().replace(/\s+/g, '');
+          // Convert tag to lowercase and remove all spaces
+          const tagNoSpaces = tag.toLowerCase().replace(/\s+/g, '');
+          
+          const tagMatches = tag.length === 0 || courseIdNoSpaces.includes(tagNoSpaces);
 
-          const queryTerms = query.toLowerCase().split('').filter(term => term.trim().length > 0);
-          const queryMatches = queryTerms.every(term => courseId.includes(term));
+          // Better handling of query terms - instead of splitting by character, we remove spaces
+          // and then do a direct comparison
+          const queryMatches = courseIdNoSpaces.includes(query);
 
           return tagMatches && queryMatches;
         })

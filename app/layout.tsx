@@ -18,8 +18,29 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: '4 Year Planner for UCI',
-  description: 'A 4 year planner designed for UCI students',
+  title: 'UCI 4 Year Planner | Course Planning for UC Irvine Students',
+  description: 'Create and customize your 4 year academic plan for UC Irvine. Organize courses, track requirements, and plan your UCI degree path semester by semester.',
+  keywords: ['UCI', 'UC Irvine', '4 year plan', 'course planning', 'academic planner', 'degree planning', 'college schedule', 'UCI courses', 'uci 4 year plan', 'uci course planner', 'uci planner', 'uci 4 year planner'],
+  authors: [{ name: 'Caleb Vergene' }],
+  openGraph: {
+    title: 'UCI 4 Year Planner | Course Planning for UC Irvine Students',
+    description: 'Create and customize your 4 year academic plan for UC Irvine. Organize courses, track requirements, and plan your UCI degree path.',
+    url: 'https://uci4yearplan.com',
+    siteName: 'UCI 4 Year Planner',
+    locale: 'en_US',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 const localization = {
@@ -58,6 +79,31 @@ export default function RootLayout({
       },
     }}>
       <html lang="en" className="dark">
+        <head>
+          {/* Add structured data for rich results */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'WebApplication',
+                name: 'UCI 4 Year Planner',
+                description: 'Interactive academic planning tool for UC Irvine students',
+                applicationCategory: 'Education',
+                operatingSystem: 'Web',
+                offers: {
+                  '@type': 'Offer',
+                  price: '0',
+                  priceCurrency: 'USD',
+                },
+                audience: {
+                  '@type': 'EducationalAudience',
+                  educationalRole: 'student',
+                },
+              }),
+            }}
+          />
+        </head>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
           <Analytics />

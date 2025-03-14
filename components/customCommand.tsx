@@ -45,12 +45,12 @@ export const CustomCommandInput = forwardRef<HTMLInputElement, CommandInputProps
         }
 
         return (
-            <div className={`flex items-center px-3 ${tag.length > 0 ? "pb-3" : "pb-4"} ${value.length > 0 || tag.length > 0 ? 'border-b border-dark-highlight' : ''}`}>
+            <div className={`flex items-center px-3 ${tag ? "pb-3" : "pb-4"}`}>
                 <SearchIcon className="w-5 h-5 opacity-50 shrink-0 mr-2" />
 
                 <div className="flex-1 flex items-center">
                     {tag && (
-                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-0.5 flex row items-center mr-2 rounded-md'>
+                        <div className='text-sm text-neutral-400 bg-dark-highlight px-2 py-1 flex row items-center mr-2 rounded-md'>
                             {tag}<X size={12} className='ml-1' onClick={onXClick} />
                         </div>
                     )}

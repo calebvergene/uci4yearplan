@@ -6,6 +6,10 @@ export async function fetchMajorClasses(majorId: string) {
   return data.json();
 }
 
+export async function fetchMinorClasses(minorId: string) {
+  const data = await fetch(`https://anteaterapi.com/v2/rest/programs/minor?programId=${minorId}`);
+  return data.json();
+}
 
 export async function fetchCourseData(courseId: string) {
   const data = await fetch(`https://anteaterapi.com/v2/rest/courses/${courseId}`);
