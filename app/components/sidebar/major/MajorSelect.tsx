@@ -1,9 +1,8 @@
-"use client"
+'use client'
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { Major } from "../../../types"
-
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -21,26 +20,52 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-
 interface Props {
   majors: Major[]
   handleMajorChange?: (value: string) => void
+  isMinor?: boolean
 }
 
-export default function MajorSelect({ majors, handleMajorChange }: Props) {
+export default function MajorSelect({ majors, handleMajorChange, isMinor = false }: Props) {
   const [open, setOpen] = React.useState(false)
   const [id, setId] = React.useState("")
 
+  const validMajors = Array.isArray(majors) ? majors : [];
+
   const handleSelect = (currentValue: string) => {
-    const selectedMajor = majors.find(major => major.name === currentValue);
-    if (selectedMajor) {
-      setId(selectedMajor.id === id ? "" : selectedMajor.id);
-      handleMajorChange?.(selectedMajor.id);
+    if (!currentValue) return;
+    
+    const selectedMajor = validMajors.find(major => major && major.name === currentValue);
+    
+    if (selectedMajor && selectedMajor.id) {
+      const newId = selectedMajor.id === id ? "" : selectedMajor.id;
+      setId(newId);
+      handleMajorChange?.(newId);
     }
     setOpen(false);
   };
 
-  const selectedMajor = majors.find(major => major.id === id);
+  const selectedMajor = validMajors.find(major => major && major.id === id);
+  
+  // format the name for display based on whether it's a major or minor
+  const formatName = (name: string | undefined): string => {
+    if (!name) return ""; 
+    
+    if (isMinor) {
+      return name.replace(/^Minor in\s+/i, '');
+    } else {
+      return name.includes('in') ? name.split(/in\s+/)[1] : name;
+    }
+  };
+
+  // safe display items - ensure every item has required properties
+  const safeItems = validMajors
+    .filter(item => item && typeof item === 'object' && item.name && item.id)
+    .map(item => ({
+      id: item.id,
+      name: item.name,
+      division: item.division
+    }));
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,34 +74,33 @@ export default function MajorSelect({ majors, handleMajorChange }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between  !border-transparent !bg-dark-secondary hover:!bg-dark-accent !text-white"
+          className="w-full justify-between !border-transparent !bg-dark-secondary hover:!bg-dark-accent !text-white"
         >
-
-          {selectedMajor ? selectedMajor.name.includes('in') ? selectedMajor.name.split(/in\s+/)[1] :
-            selectedMajor.name : "Choose major..."}
-
+          {selectedMajor && selectedMajor.name
+            ? formatName(selectedMajor.name)
+            : isMinor ? "Choose minor..." : "Choose major..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Search major..." />
+          <CommandInput placeholder={isMinor ? "Search minor..." : "Search major..."} />
           <CommandList>
-            <CommandEmpty>No major found.</CommandEmpty>
+            <CommandEmpty>{isMinor ? "No minor found." : "No major found."}</CommandEmpty>
             <CommandGroup>
-              {majors
-                .filter(major => major.division === 'Undergraduate')
-                .sort((a, b) => {
-                  const aName = a.name.includes('in') ? a.name.split(/in\s+/)[1] : a.name;
-                  const bName = b.name.includes('in') ? b.name.split(/in\s+/)[1] : b.name;
-                  return aName.localeCompare(bName);
-                })
-                .map((major) => {
-                  const afterIn = major.name.includes('in') ?
-                    major.name.split(/in\s+/)[1] :
-                    major.name;
-
-                  return (
+              {safeItems.length > 0 ? (
+                // nnly attempt sorting if we have items
+                safeItems
+                  .sort((a, b) => {
+                    if (!a || !b) return 0;
+                    const aName = formatName(a.name);
+                    const bName = formatName(b.name);
+                    if (typeof aName === 'string' && typeof bName === 'string') {
+                      return aName.localeCompare(bName);
+                    }
+                    return 0;
+                  })
+                  .map((major) => (
                     <CommandItem
                       key={major.id}
                       value={major.name}
@@ -84,14 +108,18 @@ export default function MajorSelect({ majors, handleMajorChange }: Props) {
                     >
                       <Check
                         className={cn(
-                          "mr-2 h-4 w-full",
+                          "mr-2 h-4 w-4",
                           id === major.id ? "opacity-100" : "opacity-0"
                         )}
                       />
-                      {afterIn}
+                      {formatName(major.name)}
                     </CommandItem>
-                  );
-                })}
+                  ))
+              ) : (
+                <div className="py-6 text-center text-sm">
+                  {isMinor ? "No minors available" : "No majors available"}
+                </div>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>

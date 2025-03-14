@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MajorSection from './major/MajorSection'
-import { fetchMajorClasses } from '@/app/actions/anteaterapi/actions'
+import { fetchMajorClasses, fetchMinorClasses } from '@/app/actions/anteaterapi/actions'
 import { Skeleton } from '@/components/ui/skeleton';
 import GERequirementsDropdown from '../sidebar_courses/GeSection';
 
@@ -16,6 +16,8 @@ interface Props {
 
 const Sidebar = ({ addCourse, removeCourse }: Props) => {
   const [majors, setMajors] = useState([]);
+  const [minors, setMinors] = useState([]);
+
 
   useEffect(() => {
     const fetchMajors = async () => {
@@ -25,6 +27,16 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
     };
 
     fetchMajors();
+  }, []);
+
+  useEffect(() => {
+    const fetchMinors = async () => {
+      const res = await fetch('https://anteaterapi.com/v2/rest/programs/minors');
+      const data = await res.json();
+      setMinors(data.data);
+    };
+
+    fetchMinors();
   }, []);
 
   return (
@@ -55,9 +67,19 @@ const Sidebar = ({ addCourse, removeCourse }: Props) => {
         )}
       </TabsContent>
       <TabsContent value="Minor">
-        <div className='mt-4 w-full flex justify-center text-lg'>
-          <h1>New Features Coming Soon...</h1>
-        </div>
+        {minors.length > 0 ? (
+          <MajorSection
+            majors={minors}
+            fetchMajorClasses={fetchMinorClasses}
+            addCourse={addCourse}
+            removeCourse={removeCourse}
+            minor={true}
+          />
+        ) : (
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-4 w-full mt-2 ml-6" />
+          </div>
+        )}
       </TabsContent>
 
       <TabsContent value="GEs">

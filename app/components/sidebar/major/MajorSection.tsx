@@ -3,9 +3,9 @@
 import React from 'react'
 import MajorSelect from './MajorSelect'
 import { Major, ApiResponse } from "../../../types"
-import { useSearchParams } from 'next/navigation'
 import ClassSelection from '../../sidebar_courses/ClassSelection'
 import MajorSkeleton from './MajorSkeleton'
+import { fetchMinorClasses } from '@/app/actions/anteaterapi/actions'
 
 interface Props {
   majors: Major[];
@@ -13,32 +13,34 @@ interface Props {
   fetchMajorClasses: (id: string) => Promise<ApiResponse>;
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
+  minor?: boolean;
 }
 
-const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, removeCourse }: Props) => {
+const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, removeCourse, minor = false }: Props) => {
   const [majorClasses, setMajorClasses] = React.useState<ApiResponse | null>(initialMajorData || null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const searchParams = useSearchParams();
 
-  const currentMajorId = searchParams.get('majorId') || "";
 
   const handleMajorChange = async (newId: string) => {
-    setIsLoading(true);
-    // if the same major is selected, clear it
-    const actualId = newId === currentMajorId ? "" : newId;
-
-    if (!actualId) {
+    
+    if (!newId) {
       setMajorClasses(null);
-      setIsLoading(false);
       return;
     }
 
+    setIsLoading(true);
+
     try {
       // fetch data for the new selection
-      const data = await fetchMajorClasses(actualId);
+      let data;
+      if (minor) {
+        data = await fetchMinorClasses(newId);
+      } else {
+        data = await fetchMajorClasses(newId);
+      }
       setMajorClasses(data);
     } catch (error) {
-      console.error('Error fetching major classes:', error);
+      console.error(`Error fetching ${minor ? 'minor' : 'major'} classes:`, error);
       setMajorClasses(null);
     } finally {
       setIsLoading(false);
@@ -50,12 +52,13 @@ const MajorSection = ({ majors, initialMajorData, fetchMajorClasses, addCourse, 
       <MajorSelect
         majors={majors}
         handleMajorChange={handleMajorChange}
+        isMinor={minor}
       />
 
       {isLoading ? (
         <MajorSkeleton />
       ) : (
-        majorClasses && majorClasses.data.requirements.length > 0 && (
+        majorClasses && majorClasses.data?.requirements?.length > 0 && (
           <div className="px-2 pt-3">
             <ClassSelection
               Requirements={majorClasses.data.requirements}
