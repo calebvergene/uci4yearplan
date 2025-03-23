@@ -95,6 +95,7 @@ export const CourseDropdown = ({
         setIsLoading(true);
         setError(null);
         const data = await fetchZotisticsData(courseName);
+        console.log(courseName);
         setCourseGrades(data.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load course grades');

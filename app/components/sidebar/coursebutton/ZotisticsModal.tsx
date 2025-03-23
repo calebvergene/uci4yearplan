@@ -9,6 +9,7 @@ import { CourseGrade } from '@/app/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ZotisticsAreaGraph } from './ZotisticsDataComponents';
 
+
 interface Props {
   courseName: string;
   courseGrades: CourseGrade[] | null;

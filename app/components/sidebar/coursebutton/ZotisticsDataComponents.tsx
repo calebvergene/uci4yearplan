@@ -29,6 +29,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+
 interface Props {
   data: CourseGrade[];
 }
@@ -147,7 +148,7 @@ export function ZotisticsAreaGraph({ data }: Props) {
           (course.gradeFCount || 0);
 
         // Only include instructors with at least 5 students for statistical significance
-        if (instructorStudentCount >= 100) {
+        if (instructorStudentCount >= 20) {
           // Add a new entry to the array instead of using an object with keys
           instructorData.push({
             instructor: course.instructor,

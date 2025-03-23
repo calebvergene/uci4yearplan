@@ -47,7 +47,6 @@ export default function MajorSelect({ majors, handleMajorChange, isMinor = false
 
   const selectedMajor = validMajors.find(major => major && major.id === id);
   
-  // format the name for display based on whether it's a major or minor
   const formatName = (name: string | undefined): string => {
     if (!name) return ""; 
     
@@ -58,9 +57,18 @@ export default function MajorSelect({ majors, handleMajorChange, isMinor = false
     }
   };
 
-  // safe display items - ensure every item has required properties
   const safeItems = validMajors
-    .filter(item => item && typeof item === 'object' && item.name && item.id)
+    .filter(item => {
+      if (!(item && typeof item === 'object' && item.name && item.id)) {
+        return false;
+      }
+      
+      if (!isMinor && item.division !== 'Undergraduate') {
+        return false;
+      }
+      
+      return true;
+    })
     .map(item => ({
       id: item.id,
       name: item.name,
@@ -89,7 +97,7 @@ export default function MajorSelect({ majors, handleMajorChange, isMinor = false
             <CommandEmpty>{isMinor ? "No minor found." : "No major found."}</CommandEmpty>
             <CommandGroup>
               {safeItems.length > 0 ? (
-                // nnly attempt sorting if we have items
+                // only attempt sorting if we have items
                 safeItems
                   .sort((a, b) => {
                     if (!a || !b) return 0;
