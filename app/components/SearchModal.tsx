@@ -131,7 +131,7 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
     }
 
     // Filter courses
-    let filteredCourses = courses
+    const filteredCourses = courses
       .filter(course => {
         // Convert course ID to lowercase and remove all spaces
         const courseIdNoSpaces = course.id.toLowerCase().replace(/\s+/g, '');
@@ -207,8 +207,8 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
                   <div>
                     <CustomCommandGroup heading="Departments">
                       {filteredDepartments.map(department => {
-                        // Find shortcuts for this department
-                        const shortcuts = Object.entries(DEPARTMENT_SHORTCUTS)
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                          const shortcuts = Object.entries(DEPARTMENT_SHORTCUTS)
                           .filter(([_, deptId]) => deptId === department.id)
                           .map(([shortcut, _]) => shortcut);
                           
