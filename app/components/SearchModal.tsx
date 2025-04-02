@@ -207,10 +207,9 @@ const SearchModal = ({ open, setOpen, addCourse, removeCourse }: SearchModalProp
                   <div>
                     <CustomCommandGroup heading="Departments">
                       {filteredDepartments.map(department => {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                           const shortcuts = Object.entries(DEPARTMENT_SHORTCUTS)
-                          .filter(([_, deptId]) => deptId === department.id)
-                          .map(([shortcut, _]) => shortcut);
+                          .filter(([, deptId]) => deptId === department.id)
+                          .map(([shortcut]) => shortcut);
                           
                         return (
                           <div key={department.id} className="item" onClick={() => onDepartmentClick(department.id)}>
