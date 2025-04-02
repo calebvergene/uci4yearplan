@@ -206,11 +206,10 @@ export default function Root( { loadedPlanner, userId }: Props ) {
   // Mobile layout
   if (isMobile) {
     return (
-      <div className='h-screen flex flex-col overflow-hidden'>
+      <div className='flex flex-col h-screen overflow-hidden'>
         <Toolbar addCourse={addCourse} removeCourse={removeCourse} />
         
-        {/* Main content area - takes available space */}
-        <div className='flex-grow overflow-auto'>
+        <div className='flex-grow overflow-auto pb-14'>
           <CoursePlanner years={years} addCourse={addCourse} removeCourse={removeCourse}/>
         </div>
         
@@ -234,12 +233,12 @@ export default function Root( { loadedPlanner, userId }: Props ) {
           </motion.button>
           
           <motion.div 
-            className='bg-dark-secondary overflow-hidden'
+            className='bg-dark-secondary overflow-hidden shadow-lg'
             initial="closed"
             animate={sidebarOpen ? "open" : "closed"}
             variants={sidebarVariants}
           >
-            <div className="pb-4 max-h-fit overflow-auto">
+            <div className="pb-4 max-h-[37rem] overflow-auto">
               <Sidebar addCourse={addCourse} removeCourse={removeCourse}/>
             </div>
           </motion.div>
