@@ -10,7 +10,24 @@ interface Props {
 }
 
 const Toolbar = ({ addCourse, removeCourse }: Props) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Check if the screen is mobile sized
+  React.useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on initial load
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Clean up the event listener
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   const onSearchClick = () => {
     setOpen((open) => !open)
@@ -27,7 +44,57 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
+  // Mobile layout
+  if (isMobile) {
+    return (
+      <div>
+        {/* Top row with logo and auth buttons */}
+        <div className="flex items-center justify-between py-2 px-3">
+          {/* Logo section */}
+          <div className="flex items-center">
+            <Image
+              src="/uci4yearplanlogo.png"
+              width={30}
+              height={30}
+              alt="UCI 4 Year Plan Logo"
+            />
+            <h1 className="ml-1 font-semibold text-lg">
+              uci4yearplan
+            </h1>
+            <div className="ml-2 rounded-md px-1.5 py-0.5 border text-xs border-neutral-600 text-neutral-300">
+              Beta
+            </div>
+          </div>
+          
+          {/* Auth buttons */}
+          <div>
+            <AuthButtons />
+          </div>
+        </div>
+        
+        {/* Search bar in second row */}
+        <div className="px-3 py-2 pb-3 border-b border-dark-secondary">
+          <button 
+            onClick={onSearchClick} 
+            className="flex justify-between items-center w-full py-1.5 px-3 border hover:bg-dark-accent rounded-2xl border-dark-highlight text-neutral-400 hover:text-white duration-150"
+          >
+            <div className="flex items-center">
+              <Search size={16} className="text-neutral-500 mr-1" />
+              <span className="text-sm">Search courses...</span>
+            </div>
+            <div className="flex items-center ml-1 bg-dark-accent px-1.5 py-0.5 rounded text-xs">
+              <Command size={10} className="mr-0.5" />
+              <span>K</span>
+            </div>
+          </button>
+        </div>
+        
+        <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
+      </div>
+    );
+  }
 
+  // Desktop layout (original)
   return (
     <div>
       <div className='flex py-3 px-5 border-b border-dark-secondary'>
@@ -61,7 +128,6 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
               </div>
             </div>
           </button>
-          <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
         </div>
 
         {/* Right Section */}
@@ -71,6 +137,7 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
           </div>
         </div>
       </div>
+      <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
     </div>
   )
 }
