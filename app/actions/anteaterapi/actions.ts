@@ -18,15 +18,17 @@ export async function fetchCourseData(courseId: string) {
 
 
 export async function fetchZotisticsData(courseName: string) {
-  // split Coursename by department and course number
+  // split coursename by department and course number
   let courseDepartment: string;
   let courseNumber: string;
 
   console.log("Original course name:", courseName);
 
-  // Department alias mapping for special formatting cases
+  // ******** Department alias mapping for special formatting cases
   const departmentAlias: Record<string, string> = {
     "I&CSCI": "I&C SCI",    
+    "I&CSCIH": "I&C SCI",  
+    "BIOCHEM": "BIO CHEM",
   };
 
   const lastDigitIndex = courseName.search(/\d[^\d]*$/);
