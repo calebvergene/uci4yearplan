@@ -134,11 +134,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
                 className="flex justify-between items-center w-full text-left rounded-md p-4 transition-colors duration-150"
               >
                 <div className="flex flex-row flex-nowrap items-center min-w-0">
-                  {category.requirementCount > 0 && (
-                    <span className="inline-flex items-center bg-emerald-600 text-white px-2.5 py-1 rounded-full mr-3 text-xs font-medium whitespace-nowrap flex-shrink-0">
-                      Choose {category.requirementCount}
-                    </span>
-                  )}
+                  
                   <h3 className="font-semibold text-md truncate">{category.label}</h3>
                 </div>
                 <ChevronDown className={`h-5 w-5 transition-transform duration-200 ml-2 flex-shrink-0 ${!isOpen ? 'transform -rotate-90' : ''}`} />
