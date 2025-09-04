@@ -122,7 +122,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
   };
 
   return (
-    <div className="h-[79vh] overflow-y-auto mx-4 w-full">
+    <div className="h-[79vh] overflow-y-auto mx-4 w-full scrollbar-hide">
       {geReqsData.map((category: GroupGroupRequirement, index: number) => {
         const isOpen = openSections[index] ?? false;
 

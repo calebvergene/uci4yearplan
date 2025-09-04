@@ -12,7 +12,7 @@ interface Props {
 const CoursePlanner = ( {years, addCourse, removeCourse}: Props) => {
 
   return (
-      <div className="p-4 h-[90vh] overflow-y-scroll">
+      <div className="p-4 h-[90vh] overflow-y-scroll scrollbar-hide">
         {years.map((year: Year) => (
           <YearCard key={year.id} year={year} addCourse={addCourse} removeCourse={removeCourse}/>
         ))}

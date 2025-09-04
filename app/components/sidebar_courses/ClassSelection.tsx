@@ -111,7 +111,7 @@ const ClassSelection = ({ Requirements, addCourse, removeCourse }: Props) => {
   };
 
   return (
-    <div className="h-[79vh] overflow-y-auto ml-2">
+    <div className="h-[79vh] overflow-y-auto ml-2 scrollbar-hide">
       {processedRequirements.map((requirement: Requirement, index) => {
         const isOpen = openSections[index] ?? false;
 
