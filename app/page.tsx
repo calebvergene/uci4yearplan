@@ -12,9 +12,8 @@ export default async function Home() {
   if (user) {
     // first, need to find or create the user
     let loggedInUser = await db.user.findUnique({
-      where: { clerkUserId: user.id },
+      where: { email: user.emailAddresses[0].emailAddress },
     });
-
     if (!loggedInUser) {
       loggedInUser = await db.user.create({
         data: {

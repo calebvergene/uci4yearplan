@@ -90,8 +90,8 @@ export default function Root( { loadedPlanner, userId }: Props ) {
           courses: quarter.courses || []
         }))
       })) as Year[]);
-      setIsDataLoaded(true);
     }
+    setIsDataLoaded(true);
   }, [loadedPlanner]);
 
   useEffect(() => {
