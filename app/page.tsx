@@ -12,13 +12,12 @@ export default async function Home() {
   if (user) {
 
     const loggedInUser = await db.user.upsert({
-      where: { clerkUserId: user.id },
+      where: { email: user.emailAddresses[0].emailAddress },
       update: {
-        email: user.emailAddresses[0].emailAddress,
+        clerkUserId: user.id, // update clerkUserId if it changed
         username: user.emailAddresses[0].emailAddress.split('@')[0]
       },
       create: {
-        // create new user if doesn't exist
         clerkUserId: user.id,
         email: user.emailAddresses[0].emailAddress,
         username: user.emailAddresses[0].emailAddress.split('@')[0]
