@@ -10,23 +10,24 @@ export default async function Home() {
   let userId: string | undefined = undefined;
 
   if (user) {
-
-    const loggedInUser = await db.user.upsert({
-      where: { email: user.emailAddresses[0].emailAddress },
-      update: {
-        clerkUserId: user.id, // update clerkUserId if it changed
-        username: user.emailAddresses[0].emailAddress.split('@')[0]
-      },
-      create: {
-        clerkUserId: user.id,
-        email: user.emailAddresses[0].emailAddress,
-        username: user.emailAddresses[0].emailAddress.split('@')[0]
-      },
+    // first, need to find or create the user
+    let loggedInUser = await db.user.findUnique({
+      where: { clerkUserId: user.id },
     });
-    
+
+    if (!loggedInUser) {
+      loggedInUser = await db.user.create({
+        data: {
+          clerkUserId: user.id,
+          email: user.emailAddresses[0].emailAddress,
+          username: user.emailAddresses[0].emailAddress.split('@')[0]
+        },
+      });
+    }
+
     // load the planner
     const planner = await prismaLoadUserPlanner(loggedInUser.id);
-    
+
     years = planner?.years;
     userId = loggedInUser.id;
   }
