@@ -2,10 +2,14 @@ import { type Metadata } from 'next'
 import {
   ClerkProvider,
 } from '@clerk/nextjs'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { Analytics } from "@vercel/analytics/react"
+
+const inter = Inter({
+  subsets: ['latin'],
+})
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -64,7 +68,6 @@ const localization = {
     },
     
   },
-  // You can also customize error messages, buttons, etc.
 };
 
 export default function RootLayout({
@@ -104,7 +107,7 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={inter.className}>
           {children}
           <Analytics />
           <Toaster />

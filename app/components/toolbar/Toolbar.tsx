@@ -97,21 +97,19 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
   // Desktop layout (original)
   return (
     <div>
-      <div className='flex py-3 px-5 border-b border-dark-secondary'>
+      <div className='flex py-3 px-4 border-b border-dark-secondary'>
         {/* Left Section */}
         <div className='flex-1 flex items-center'>
           <div className='flex row gap-x-4'>
             <button className='flex flex-row items-center'>
               <Image
                 src="/uci4yearplanlogo.png"
-                width={35}
-                height={35}
+                width={40}
+                height={40}
                 alt="UCI 4 Year Plan Logo"
               />
-              <h1 className='ml-1 my-auto font-semibold text-xl'>uci4yearplan</h1>
             </button>
-            <div className='justify-center place-content-center rounded-md px-2 py-0.5 border text-xs my-auto mt-2 border-neutral-600 text-neutral-300'>Open Beta</div>
-          </div>
+         </div>
         </div>
 
         {/* Center Section - Search Bar */}
