@@ -37,10 +37,10 @@ const AuthButtons = () => {
   if (!isLoaded || showPlaceholder) {
     return (
       <div className='flex flex-row gap-x-1 text-sm'>
-        <button className={`bg-dark-accent hover:bg-dark-highlight duration-150 text-white rounded-md flex row font-medium ${isMobile ? 'py-1 px-3 text-xs' : 'py-2 px-6 mr-2'}`}>
+        <button className={`bg-dark-accent hover:bg-dark-highlight duration-150 text-white rounded-lg flex row font-medium ${isMobile ? 'py-1 px-3 text-xs' : 'py-2 px-5 mr-2'}`}>
           {isMobile ? 'Log in' : 'Login'}
         </button>
-        <button className={`text-white bg-emerald-600 hover:bg-emerald-600/90 duration-150 rounded-md flex row ${isMobile ? 'py-1 px-2 text-xs' : 'py-2 px-4 ml-1'}`}>
+        <button className={`text-white bg-emerald-600 hover:bg-emerald-600/90 duration-150 rounded-lg flex row ${isMobile ? 'py-1 px-2 text-xs' : 'py-2 px-5 ml-1'}`}>
           {isMobile ? 'Sign up' : 'Sign Up'}
         </button>
       </div>

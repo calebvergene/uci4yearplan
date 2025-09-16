@@ -27,7 +27,7 @@ const AboutDialog = () => {
 
     return (
         <Dialog open={showModal} onOpenChange={setShowModal}>
-            <DialogTrigger>
+            <DialogTrigger className='focus:outline-none'>
                 <Image
                     src="/uci4yearplanlogo.png"
                     width={40}
