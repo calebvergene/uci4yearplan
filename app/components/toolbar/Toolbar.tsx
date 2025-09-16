@@ -3,6 +3,7 @@ import Image from 'next/image';
 import AuthButtons from './AuthButtons';
 import { Search, Command } from 'lucide-react';
 import SearchModal from '../SearchModal';
+import AboutDialog from './AboutDialog';
 
 interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
@@ -18,13 +19,13 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     // Check on initial load
     checkIfMobile();
-    
+
     // Add event listener for window resize
     window.addEventListener('resize', checkIfMobile);
-    
+
     // Clean up the event listener
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
@@ -65,17 +66,17 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
               Beta
             </div>
           </div>
-          
+
           {/* Auth buttons */}
           <div>
             <AuthButtons />
           </div>
         </div>
-        
+
         {/* Search bar in second row */}
         <div className="px-3 py-2 pb-3 border-b border-dark-secondary">
-          <button 
-            onClick={onSearchClick} 
+          <button
+            onClick={onSearchClick}
             className="flex justify-between items-center w-full py-1.5 px-3 border hover:bg-dark-accent rounded-2xl border-dark-highlight text-neutral-400 hover:text-white duration-150"
           >
             <div className="flex items-center">
@@ -88,7 +89,7 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
             </div>
           </button>
         </div>
-        
+
         <SearchModal open={open} setOpen={setOpen} addCourse={addCourse} removeCourse={removeCourse} />
       </div>
     );
@@ -101,15 +102,8 @@ const Toolbar = ({ addCourse, removeCourse }: Props) => {
         {/* Left Section */}
         <div className='flex-1 flex items-center'>
           <div className='flex row gap-x-4'>
-            <button className='flex flex-row items-center'>
-              <Image
-                src="/uci4yearplanlogo.png"
-                width={40}
-                height={40}
-                alt="UCI 4 Year Plan Logo"
-              />
-            </button>
-         </div>
+            <AboutDialog/>
+          </div>
         </div>
 
         {/* Center Section - Search Bar */}
