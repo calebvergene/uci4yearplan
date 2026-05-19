@@ -13,13 +13,6 @@ interface Requirement {
   requirements?: Requirement[];
 }
 
-interface GroupGroupRequirement {
-  label: string;
-  requirementType: string;
-  requirementCount: number;
-  requirements: Requirement[];
-}
-
 interface Props {
   addCourse: (yearId: string, quarterId: string, newCourse: string) => void;
   removeCourse: (yearId: string, quarterId: string, courseId: string) => void;
@@ -123,7 +116,7 @@ const GERequirementsDropdown: React.FC<Props> = ({ addCourse, removeCourse }) =>
 
   return (
     <div className="h-[79vh] overflow-y-auto mx-4 w-full scrollbar-hide">
-      {geReqsData.map((category: GroupGroupRequirement, index: number) => {
+      {geReqsData.map((category: Requirement, index: number) => {
         const isOpen = openSections[index] ?? false;
 
         return (
