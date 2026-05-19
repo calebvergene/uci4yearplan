@@ -95,8 +95,13 @@ function filterOutMarkers(data) {
     // First flatten the nested structure
     const flattenedData = flattenStructure(data);
     
-    // Then filter out marker requirements
-    return flattenedData.map(groupGroup => {
+    // Then filter out marker requirements (including any at the top level)
+    return flattenedData
+      .filter(groupGroup => groupGroup.requirementType !== "Marker")
+      .map(groupGroup => {
+      if (!Array.isArray(groupGroup.requirements)) {
+        return groupGroup;
+      }
       return {
         ...groupGroup,
         requirements: groupGroup.requirements
